@@ -1,0 +1,14 @@
+\section{Introduction}
+
+Where does a large language model store its facts? In this paper, we report evidence that factual associations in GPT correspond to a localized computation that can be directly edited.
+
+
+Large language models can predict factual statements about the world~\citep{petroni-etal-2019-language,jiang-etal-2020-know,roberts-etal-2020-much}. For example, given the prefix ``\emph{The Space Needle is located in the city of},'' GPT will reliably predict the true answer: ``\emph{Seattle}'' (\reffig{infoflow}a).  Factual knowledge has been observed to emerge in both autoregressive GPT models~\citep{gpt2,gpt3} and masked BERT models~\citep{devlin-etal-2019-bert}.
+
+In this paper, we investigate how such factual associations are stored within GPT-like autoregressive transformer models. Although many of the largest neural networks in use today are autoregressive, the way that they store knowledge remains under-explored. Some research has been done for masked models~\citep{petroni-etal-2019-language,jiang-etal-2020-know,10.1162/tacl_a_00410,geva-etal-2021-transformer,dai-kn,decao-ke}, but GPT has architectural differences such as unidirectional attention and generation capabilities that provide an opportunity for new insights.
+
+We use two approaches. First, we trace the causal effects of hidden state \underline{activations} within GPT using causal mediation analysis~\citep{pearl2001direct,vig2020investigating} to identify the specific modules that mediate recall of a fact about a subject (\reffig{infoflow}).  Our analysis reveals that feedforward MLPs at a range of middle layers are decisive when processing the last token of the subject name (Figures~\ref{fig:infoflow}b,\ref{fig:avg-1000-trace}b,\ref{fig:trace-mlp-disabled}).
+
+Second, we test this finding in model \underline{weights} by introducing a Rank-One Model Editing method (ROME) to alter the parameters that determine a feedfoward layer's behavior at the decisive token.  Despite the simplicity of the intervention, we find that ROME is similarly effective to other model-editing approaches on a standard zero-shot relation extraction benchmark (Section~\ref{subsec:zsre}).
+
+To evaluate ROME's impact on more difficult cases, we introduce a dataset of counterfactual assertions (Section~\ref{subsec:counterfact-description}) that would not have been observed in pretraining. Our evaluations (Section~\ref{subsec:romeeval-mlp}) confirm that midlayer MLP modules can store factual associations that generalize beyond specific surface forms, while remaining specific to the subject. Compared to previous fine-tuning~\citep{zhu-ft}, interpretability-based~\citep{dai-kn}, and meta-learning~\citep{mend,decao-ke} methods, ROME achieves good generalization and specificity simultaneously, whereas previous approaches sacrifice one or the other.

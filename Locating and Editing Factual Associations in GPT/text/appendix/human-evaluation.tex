@@ -1,0 +1,30 @@
+\section{Human Evaluation}
+\label{apd:human-evaluation}
+
+To further evaluate the quality of generated text after applying ROME, we conduct a human evaluation in which 15 volunteers are asked to compare generated text samples.  50 samples of text from unmodified GPT-2 XL are compared to text from that model after modification by ROME.  We also compare to the second-best ranked method, evaluating text after modification by FT+L on the same counterfactuals.  Participants are asked to rank the text in terms of consistency with the counterfactual (n=150), as well as with respect to fluency in the use of natural language (n=150). Results are summarized in \reffig{apd-human-pairwise}, and randomly-sampled examples are shown in Figures~\ref{fig:apd-human-case-1},~\ref{fig:apd-human-case-2},~\ref{fig:apd-human-case-3}.
+
+Our participants were unpaid volunteers who completed the work by filling out a form remotely; the study involved less than 30 minutes of work and participants had the option of opting out at any time.  \reffig{apd-human-study-instructions} shows the full instructions.
+
+\input{figtext/apd-human-pairwise}
+\begin{figure*}
+\includegraphics[width=\textwidth]{figs/appendix-human_case_1-crop.pdf}%
+\caption{\small Human evaluation, random sample 1.}
+\lblfig{apd-human-case-1}
+\end{figure*}
+\begin{figure*}
+\includegraphics[width=\textwidth]{figs/appendix-human_case_2-crop.pdf}%
+\caption{\small Human evaluation, random sample 2.}
+\lblfig{apd-human-case-2}
+\end{figure*}
+\begin{figure*}
+\includegraphics[width=\textwidth]{figs/appendix-human_case_3-crop.pdf}%
+\caption{\small Human evaluation, random sample 3.}
+\lblfig{apd-human-case-3}
+\end{figure*}
+\begin{figure*}
+\includegraphics[width=0.96\textwidth]{figs/human_study_design-crop.pdf}%
+\caption{\small Human evaluation, full instructions.}
+\lblfig{apd-human-study-instructions}
+\end{figure*}
+
+We observe that ROME is much more successful than FT+L at generating text that is consistent with the counterfactual; this finding is consistent results in Table~\ref{tab:cf-results} that show that ROME generalizes better than FT+L.  Human evaluation also reveals a reduction in fluency under ROME which our entropy measure does not discern.  Some of the differences are subtle: examples of fluency losses detected by human raters can be seen in Figures~\ref{fig:apd-human-case-1},~\ref{fig:apd-human-case-2}.

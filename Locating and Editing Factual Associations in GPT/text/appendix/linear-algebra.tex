@@ -1,0 +1,67 @@
+\section{Solving for \texorpdfstring{$\Lambda$}{Lambda} Algebraically}
+\label{apd:solving-v}
+Here we present the detailed derivation of \refeqn{cinvk}, including the linear system that is used to calculate $\Lambda$ from $v_*$, $C$, and $k_*$.  This derivation is included for clarity and completeness and is a review of the classical solution of least-squares with equality constraints as applied to our setting, together with the rank-one update rule that was proposed in \citet{bau-rewriting}.
+
+We assume that $W$ is the optimal least-squares solution for memorizing a mapping from a previous set of keys $K$ to values $V$; this solution can be written using the normal equations as follows.
+\begin{align}
+\text{the $W$ that minimizes} \quad &|| W K - V ||_F^2 \\
+\text{solves} \quad    & W K K^T = V K^T
+\lbleq{normal-eq}
+\end{align}
+Here the Frobenius norm is used to write the total square error since the variable being optimized is a matrix $W$ rather than a vector $x$ as in the classical textbook presentation of least squares.
+
+We wish to find a new matrix $\hat{W}$ that solves the same least squares problem with an additional equality constraint as written in \refeqn{cinvk}:
+\begin{align}
+    \hat{W}k_* = v_*
+    \lbleq{eq-constraint}
+\end{align}
+
+This is the well-studied problem of least squares with a linear equality constraint.  The direct solution can be derived by defining and minimizing a Lagrangian, where $\Lambda \in \mathbb{R}^{H}$ minimizes the following:
+\begin{align}
+\text{define}\quad L(\hat{W}, \Lambda) &= \frac{1}{2} ||\hat{W}K-V||_F^2 - \Lambda^T(\hat{W}k_*-v_*) \\
+&=\frac{1}{2} (\hat{W}K)(\hat{W}K)^T - V(\hat{W}K)^T + \frac{1}{2}VV^T - \Lambda^T(\hat{W}k_*-v_*) \\
+\text{setting} \quad 0 = \frac{\partial L}{\partial \hat{W}} &= \hat{W}(KK^T) - VK^T -  \Lambda k_*^T\\
+\hat{W}KK^T &= VK^T + \Lambda k_*^T
+\lbleq{cls-normal-eq}
+\end{align}
+Subtracting \refeqn{normal-eq} from \refeqn{cls-normal-eq}, most terms cancel, and we obtain the update rule:
+\begin{align}
+    (\hat{W}-W) KK^T & = \Lambda k_*^T \\
+    \hat{W} & = W + \Lambda (C^{-1}k_*)^T
+    \lbleq{cls-soln}
+\end{align}
+The last step is obtained by defining $C = KK^T$, assuming $C$ is nondegenerate, and exploiting the symmetry of $C$.  Here we also write the row vector term as $u^T = (C^{-1}k_*)^T \in \mathbb{R}^{D}$, so we can write simply (rearranging \refeqn{cinvk} and \refeqn{cls-soln}):
+\begin{align}
+\hat{W}I - \Lambda u^T &= W
+\lbleq{rome2}
+\end{align}
+To solve for $\Lambda$, we note that \refeqn{rome2} and \refeqn{eq-constraint}  form a linear system that allows both $\hat{W}$ and $\Lambda$ to be solved simultaneously if written together in block form.
+\begin{align}
+\left[\begin{array}{@{}c|c@{}}
+\\
+\quad \hat{W} \quad\, & \Lambda \\
+\,
+\end{array}\right]
+\left[\begin{array}{@{}c|c@{}}
+\\
+\quad\; I \quad\;\; & k_* \\
+\\ \hline
+-u^T \rule{0pt}{2.2ex} & 0
+\end{array}\right]
+& =
+\left[\begin{array}{@{}c|c@{}}
+\mathstrut \\
+\quad W \quad\, & v_* \\
+\mathstrut 
+\end{array}\right]
+\end{align}
+That is equivalent to substituting \refeqn{cls-soln} into \refeqn{eq-constraint} and calculating the following:
+\begin{align}
+    \hat{W} k_*
+    & = (W + \Lambda u^T) k_*
+    = W k_* + \Lambda (u^T k_*) = v_* \\
+    \Lambda & = \frac{v_* - W k_*}{u^T k_*}
+    = \frac{v_* - W k_*}{(C^{-1} k_*)^T k_*}
+\lbleq{block-solution}
+\end{align}
+\clearpage

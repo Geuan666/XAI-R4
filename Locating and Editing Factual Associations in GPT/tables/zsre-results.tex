@@ -1,0 +1,25 @@
+\begin{wraptable}{R}{0.5\textwidth}
+\vspace{-13pt}%
+    \centering
+    \caption{\small zsRE Editing Results on GPT-2 XL.}
+    \vspace{-5pt}%
+    \label{tab:zsre-results}    
+    \tiny
+    \begin{adjustbox}{width=0.5\textwidth}
+    \begin{tabular}{l r r r}
+        \toprule
+        \textbf{Editor} & \textbf{Efficacy} $\uparrow$ & \textbf{Paraphrase} $\uparrow$ & \textbf{Specificity} $\uparrow$ \\
+        \midrule
+GPT-2 XL & 22.2 ($\pm$0.5) & 21.3 ($\pm$0.5) & 24.2 ($\pm$0.5)\\\midrule
+FT & 99.6 ($\pm$0.1) & 82.1 ($\pm$0.6) & 23.2 ($\pm$0.5)\\
+FT+L & 92.3 ($\pm$0.4) & \badmetric{47.2 ($\pm$0.7)} & 23.4 ($\pm$0.5)\\
+KE & 65.5 ($\pm$0.6) & 61.4 ($\pm$0.6) & 24.9 ($\pm$0.5)\\
+KE-zsRE & 92.4 ($\pm$0.3) & 90.0 ($\pm$0.3) & 23.8 ($\pm$0.5)\\
+MEND & 75.9 ($\pm$0.5) & 65.3 ($\pm$0.6) & 24.1 ($\pm$0.5)\\
+MEND-zsRE & 99.4 ($\pm$0.1) & \goodmetric{99.3 ($\pm$0.1)} & 24.1 ($\pm$0.5)\\
+ROME & \goodmetric{99.8 ($\pm$0.0)} & 88.1 ($\pm$0.5) & \goodmetric{24.2 ($\pm$0.5)}\\
+        \bottomrule
+    \end{tabular}
+    \end{adjustbox}
+\vspace{-5pt}%
+\end{wraptable}

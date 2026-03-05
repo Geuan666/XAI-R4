@@ -1,0 +1,61 @@
+\section{Causal Tracing}
+\label{apd:causal-tracing}
+
+\subsection{Experimental Settings}
+\label{apd:causal-tracing-details}
+
+Note that, in by-layer experimental results, layers  are numbered from 0 to $L-1$ rather than $1$ to $L$.
+
+In \reffig{avg-1000-trace} and \reffig{trace-mlp-disabled} we evaluate mean causal traces over a set of 1000 factual prompts that are known by GPT-2 XL, collected as follows.  We perform greedy generation using facts and fact templates from \cfd, and we identify predicted text that names the correct object $o^c$ before naming any other capitalized word.  We use the text up to but not including the object $o^c$ as the prompt, and we randomly sample 1000 of these texts.  In this sample of known facts, the predicted probability of the correct object token calculated by GPT-2 XL averages 27.0\%.
+
+In the corrupted run, we corrupt the embeddings of the token naming the subject $s$ by adding Gaussian noise $\epsilon \sim \mathcal{N}(0; \nu)$, where $\nu = 3\sigma_t$ is set to be three times larger than the observed standard deviation $\sigma_t$ of token embeddings as sampled over a body of text.
+For each run of text, the process is repeated ten times with different samples of corruption noise.  On average, this reduces the correct object token score to 8.47\%, less than one third the original score.
+
+When we restore hidden states from the original run, we substitute the originally calculated values from the same layer and the same token, and then we allow subsequent calculations to proceed without further intervention.  For the experiments in \reffig{infoflow} (and the purple traces throughout the appendix), a single activation vector is restored.  Naturally, restoring the last vector on the last token will fully restore the original predicted scores, but our plotted results show that there are also earlier activation vectors at a second location that also have a strong causal effect: the average maximum score seen by restoring the most impactful activation vector at the last token of the subject is 19.5\%.  In \reffig{infoflow}j where effects are bucketed by layer, the maximum effect is seen around the 15th layer of the last subject token, where the score is raised on average to 15.0\%.
+
+
+\subsection{Separating MLP and Attn Effects}
+\label{apd:mlp-and-attn-trace}
+
+When decomposing the effects into MLP and Attn lookups, we found that restoring single activation vectors from individual MLP and individual Attn lookups had generally negligible effects, suggesting the decisive information is accumulated across layers. Therefore for MLP and Attn lookups, we restored runs of ten values of $\smash{\atl{m}{l}_i}$ (and $\smash{\atl{a}{l}_i}$, respectively) for an interval of layers ranging from $[l_* - 4, ..., l_* + 5]$ (clipping at the edges), where the results are plotted at layer $l_*$.  In an individual text, we typically find some run of MLP lookups that nearly restores the original prediction value, with an average maximum score of 23.6\%.  \reffig{avg-1000-trace}b buckets averages for each token-location pair, and finds the maximum effect at an interval at the last entity token, centered at the the 17th layer, which restores scores to an average of 15.0\%.   For Attn lookups (\reffig{avg-1000-trace}c), the average maximum score over any location is 19.4\%, and when bucketed by location, the maximum effect is centered at the 32nd layer at the last word before prediction,  which restores scores to an average of 16.5\%.
+
+\reffig{apd-ct-line-plots} shows mean causal traces as line plots with 95\% confidence intervals, instead of heatmaps.
+
+
+\input{figtext/apd-ct-line-plots}
+
+\subsection{Traces of EleutherAI GPT-NeoX (20B) and GPT-J (6B) and smaller models}
+
+\input{figtext/apd-causaltrace_gptj_and_neo}
+\input{figtext/apd-ct-line-plot-sizes}
+
+We conduct the causal trace experiment using on GPT-NeoX (20 billion parameters) as well as GPT-J (6 billion parameters).  For GPT-NeoX we adjust the injected noise to $\nu = 0.03$ and in GPT-J we use $\nu = 0.025$ to match embedding magnitudes.  We use the same factual prompts as GPT-2 XL, eliminating cases where the larger models would have predicted a different word for the object. Results are shown in \reffig{apd-causaltrace-gptj-neo}.
+GPT-NeoX and GPT-J differ from GPT-2 because they have has fewer layers (44 and 28 layers instead of 48), and a slightly different residual structure across layers.  Nevertheless, the causal traces look similar, with an early site with causal states concentrated at the last token of the subject, a large role for MLP states at that site.  Again, attention dominates at the last token before prediction.
+
+There are some differences compared to GPT-2.   The importance of attention at the first layers of the last subject token is more apparent in GPT-Neo and GPT-J compared to GPT-2,   suggesting that the attention parameters may be playing a larger role in storing factual associations.  This concentration of attention at the beginning may also be due to fewer layers in the Eleuther models: attending to the subject name must be done in a concentrated way at just a layer or two, because there are not enough layers to spread out that computation in the shallower model.
+The similarity between the GPT-NeoX and GPT-J and GPT-2 XL traces helps us to understand why ROME continues to work well with higher-parameter models, as seen on our experiments in altering parameters of GPT-J.
+
+To examine effects over a wide range of scales, we also compare causal traces for smaller models GPT-2 Medium and GPT-2 Large.  These smaller models are compared to NeoX-20B in \reffig{apd-ct-line-plot-sizes}.  We find that across sizes and architectural variations, early-site MLP modules continue to have high indirect causal effects at the last subject token, although the layers where effects peak are different from one model to another.
+
+\subsection{Causal Tracing Examples and Further Insights}
+\label{apd:causal-tracing-variations}
+
+We include further examples of phenomena that can be observed in causal traces. \reffig{apd-causaltrace-1} shows typical examples across different facts. \reffig{apd-causaltrace-2} discusses examples where decisive hidden states are not at the \textit{last} subject token.  \reffig{apd-trace-mlp-detail} examines traces at an individual token in more detail. 
+
+We note that causal tracing depends on a corruption rule to create baseline input for a model that does not contain all the information needed to make a prediction.  Therefore we ask: are Causal Tracing results fragile if the exact form of the corruption changes?  We test this by expanding the corruption rule: even when additional tokens after the subject name are also corrupted, we find that the results are substantially the same. \reffig{apd-causaltrace-xt} shows causal traces with the expanded corruption rule.
+\reffig{apd-ct-line-plots-xt} similarly shows line plots with the expanded corruption rule.
+
+We do find that the noise must be large enough to create large average total effects.  For example, if noise with variance that is much smaller is used (for example if we set $\sigma=\sigma_t$), average total effects become very small, and the small gap in the behavior between clean runs and corrupted run makes it difficult discern indirect effects of mediators. Similarly, if we use a uniform distribution where components range in $\pm 3\sigma$, effects large enough for causl tracing but smaller than a Gaussian distribution.
+
+If instead of using spherical Gaussian noise, we draw noise from $\mathcal{N}(mu, \Sigma)$ where we set $\mu = \mu_t$ and $\Sigma_ = \Sigma_t$ to match the observed distribution over token embeddings, average total effects are also strong enough to perform causal traces.  This is shown in \reffig{apd-ct-line-plot-noises}.
+
+Furthermore, we investigate whether Integrated Gradients (IG)~\citep{sundararajan2017axiomatic} provides the same insights as Causal Tracing.  We find that IG is very sensitive to local features but does not yield the same insights about large-scale global logic that we have been able to obtain using causal traces. \reffig{apd-ig} compares causal traces to IG saliency maps.
+
+
+\input{figtext/apd-causaltrace-1}
+\input{figtext/apd-causaltrace-2}
+\input{figtext/apd-causaltrace-xt}
+\input{figtext/apd-ct-line-plot-noises}
+\input{figtext/apd-trace-mlp-detail}
+\input{figtext/apd-ct-line-plot-xt}
+\input{figtext/apd-ig}

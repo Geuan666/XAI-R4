@@ -1,0 +1,5 @@
+\begin{figure}[t]
+\includegraphics[width=1\columnwidth]{figs/rome-method-colorful-crop.pdf}%
+\caption{\small \textbf{Editing one MLP layer with \method}.  To associate \emph{Space Needle} with \emph{Paris}, the \method method inserts a new $(k_*, v_*)$ association into layer $l^*$, where (a) key $k_*$ is determined by the subject and (b) value $v_*$ is optimized to select the object.  (c) Hidden state at layer $l^*$ and token $i$ is expanded to produce (d) the key vector $k_*$ for the subject. (e) To write new value vector $v_*$ into the layer, (f) we calculate a rank-one update $\Lambda(C^{-1}k_*)^T$ to cause $\smash{\atl{\hat{W}}{l}_{proj} k_* = v_*}$ while minimizing interference with other memories stored in the layer.}%
+\lblfig{rome-method}%
+\end{figure}

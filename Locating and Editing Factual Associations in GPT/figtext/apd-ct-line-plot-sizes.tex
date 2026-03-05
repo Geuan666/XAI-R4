@@ -1,0 +1,6 @@
+\begin{figure*}
+\centering
+\includegraphics[width=\textwidth]{figs/appendix-lineplot-trace-sizes-crop.pdf}%
+\caption{\small Comparing mean causal traces across a wide range of different model sizes.  (Compare to \reffig{apd-ct-line-plots}.)  GPT-medium (a, b, c) has 334 million parameters, GPT-large (d, e, f) has 774 million parameters, and NeoX-20B (g, h, i) has  20 billion parameters.  In addition, NeoX has some architectural variations. Despite the wide range of differences, a similar pattern of localized causal effects is seen across models.  Interestingly, for very large models, some effects are stronger. For example, hidden states before the last subject token have negative causal effects instead of merely low effects, while hidden states at early layers at the last subject token continue to have large positive effects, continuing to implicate MLP.  Also, attention modules with strong causal effects appear earlier in the stack of layers.}
+\lblfig{apd-ct-line-plot-sizes}
+\end{figure*}

@@ -1,0 +1,54 @@
+\section{Method Implementation Details} \label{apd:implementations}
+
+\subsection{[GPT-2 XL, GPT-J] Fine-Tuning (FT), Constrained Fine-Tuning (FT+L)}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[keepaspectratio, width=1\textwidth]{figs/apd-sweeps/sweep-ft-gpt2.pdf}
+  \vspace{-10pt}%
+  \caption{\small \textbf{GPT-2 XL hyperparameter sweeps across layer and $L_\infty$ constraint values for fine-tuning-based methods}. Optimization is carried out for a maximum of 25 steps on a randomly-sampled size-50 subset of \cfd. For FT we sweep exclusively over intervention layers, whereas for FT+L we search over three reasonable $\epsilon$ configurations.}
+  \lblfig{ft-sweeps-gpt2}
+\end{figure}
+\begin{figure}[t]
+  \centering
+  \includegraphics[keepaspectratio, width=1\textwidth]{figs/apd-sweeps/sweep-ft-gptj.pdf}
+  \vspace{-10pt}%
+  \caption{\small \textbf{GPT-J hyperparameter sweeps}. The experimental setup is identical to that of GPT-2 XL.}
+  \vspace{-10pt}%
+  \lblfig{ft-sweeps-gptj}
+\end{figure}
+
+To test the difference between fine-tuning and \method's explicit intervention, we use the fine-tuning of MLP weights as a baseline. Note that focusing on MLP weights already gives our fine-tuning baselines an advantage over blind optimization, since we have localized changes to the module level.
+
+For basic Fine-Tuning (FT), we use Adam~\cite{adam} with early stopping to minimize $-\log \prsub{o^* \mid p}{\rewg}$, changing only $\mlp_{proj}$ weights at one layer. A hyperparameter search for GPT-2 XL (\reffig{ft-sweeps-gpt2}) reveals that layer 1 is the optimal place to conduct the intervention for FT, as neighborhood success sees a slight increase from layer 0. Following a similar methodology for GPT-J (\reffig{ft-sweeps-gptj}), we select layer 21 because of the relative peak in neighborhood score. For both models, we use a learning rate of $5\times 10^{-4}$ and early stop at a 0.03 loss.
+
+For \textit{constrained} fine-tuning (FT+L), we draw from \citet{zhu-ft} by adding an $L_\infty$ norm constraint: $\lVert \theta_G - \theta_{\rewg} \rVert_\infty \leq \epsilon$. This is achieved in practice by clamping weights $\theta_\rewg$ to the $\theta_G \pm \epsilon$ range at each gradient step. We select layer 0 and $\epsilon = 5\times 10^{-4}$ after a hyperparameter sweep (\reffig{ft-sweeps-gpt2}). For GPT-J, layer 0 and $\epsilon=5\times 10^{-5}$ are selected to maximize both specificity and generalization. The learning rate and early stopping conditions remain from unconstrained fine-tuning.
+
+\subsection{[GPT-2 XL only] \dkn (KN)}
+The method by \citet{dai-kn} first selects neurons that are associated with knowledge expression via gradient-based attributions, and then modifies $\smash{\atl{\mathrm{mlp}_{proj}}{l}}$ at the rows corresponding to those neurons by adding scaled embedding vectors.
+This method has a \textit{coarse refinement} step, where the thousands of neurons in an MLP memory are whittled down to $\approx 1000$ ``knowledge neurons,'' and a \textit{fine refinement} step that reduces the set of neurons to around $\leq 10$.
+All hyperparameters follow defaults as set in EleutherAI's reimplementation: \url{https://github.com/EleutherAI/knowledge-neurons}.
+
+\subsection{[GPT-2 XL only] \efk (KE)}
+\citet{decao-ke} learn an LSTM sequence model that uses gradient information to predict rank-1 weight changes to $G$. Because the official code does not edit GPT-2, we use \citet{mend}'s re-implementation in their study. To encourage fair comparison on both zsRE and \cfd tasks, we additionally train KE-zsRE and KE-CF models on size-10,000 subsets of the respective training sets. Hyperparameters for training are adopted from the given default configuration.
+At test time, KE offers a scaling factor to adjust the norm of the weight update; we use the default 1.0.
+
+\subsection{[GPT-2 XL, GPT-J] Model Editor Networks with Gradient Decomposition (MEND)}
+\citet{mend} learn a rank-1 decomposition of the negative log likelihood gradient with respect to some subset of $\theta_G$ (in practice, this amounts to several of the last few layers of the transformer network). Again, for fair comparison, we train new versions of MEND (MEND-zsRE, MEND-CF) on the same sets that KE-zsRE and KE-CF were trained on. Similar to KE, hyperparameters for training and test-time inference are adopted from default configurations.
+
+\subsection{[GPT-2 XL, GPT-J] \methodlong (\method)} \label{subapd:rome-hparams}
+
+\method's update (Section~\ref{subsec:rome-math}) consists of key selection~(\refeqn{kstar-sample}), value optimization~(Eqn.~\ref{eq:v-optimization}), and $v$ insertion (Appendix~\ref{apd:solving-v}). We perform the intervention at layer 18. As \reffig{infoflow}k shows, this is the center of causal effect in MLP layers, and as \reffig{trace-mlp-disabled} shows, layer 18 is approximately when MLP outputs begin to switch from acting as keys to values.
+
+\textbf{Second moment statistics}: Our second moment statistics $C \propto \mathbb{E}[kk^T]$ are computed using 100,000 samples of hidden states $k$ computed from tokens sampled from \textbf{all} Wikipedia text in-context.  Notice that sampling is not restricted to only special subject words; every token in the text is included in the statistic. The samples of hidden state $k$ vectors are collected by selecting a random sample of Wikipedia articles from the 2020-05-01 snapshot of Wikipedia; the full text of each sampled article run through the transformer, up to the transformer's buffer length, and then all the fan-out MLP activations $k$ for every token in the article are collected at \texttt{float32} precision.  The process is repeated (sampling from further Wikipedia articles without replacement) until 100{,}000 $k$ vectors have been sampled.  This sample of vectors is used to compute second moment statistics.
+
+\textbf{Key Selection}: We sample 20 texts to compute the prefix ($x_j$ in \refeqn{kstar-sample}): ten of length 5 and ten of length 10. The intention is to pick a $k_*$ that accounts for the different contexts in which $s$ could appear. Note that we also experimented with other $x_j$ sampling methods:
+\begin{itemize}[leftmargin=12pt,topsep=0pt,parsep=0pt,partopsep=0pt,itemsep=3pt]
+    \item \textbf{No prefix}. This baseline option performed worse ($\mathrm{S}^\prime = 86.1$ compared to $\mathrm{S}=89.2$).
+    \item \textbf{Longer prefixes}. Using \{ ten of length 5, ten of length 10, and ten of length 50 \} did not help performance much ($\mathrm{S}^\prime = 89.3$).
+    \item \textbf{More same-length prefixes}. Using \{ thirty of length 5 and thirty of length 10 \} did not help performance much ($\mathrm{S}^\prime = 89.2$).
+\end{itemize}
+
+\textbf{Value Optimization}: $v_*$ is solved for using Adam with a learning rate of $0.5$ and $1.5\times 10^{-3}$ weight decay. The KL divergence scaling factor, denoted $\lambda$ in Eqn.~\ref{eq:v-optimization}, is set to $1\times 10^{2}$. The minimization loop is run for a maximum of 20 steps, with early stopping when $\mathcal{L}(z)$ reaches $5\times 10^{-2}$.
+
+The entire ROME edit takes approximately $2\mathrm{s}$ on an NVIDIA A6000 GPU for GPT-2 XL. Hypernetworks such as KE and MEND are much faster during inference (on the order of $100\mathrm{ms}$), but they require hours-to-days of additional training overhead.

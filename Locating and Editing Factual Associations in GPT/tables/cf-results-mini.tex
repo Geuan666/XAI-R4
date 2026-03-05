@@ -1,0 +1,27 @@
+\addtolength{\tabcolsep}{1.5pt}
+
+\begin{table*}[!t]
+    \centering
+    \tiny
+    \caption{\small \textbf{Extended Quantitative Editing Results}. Again, \goodmetric{green} numbers indicate columnwise maxima, whereas \badmetric{red} numbers indicate a clear failure on either generalization or specificity.}
+    \label{tab:cf-results-mini}
+    \begin{adjustbox}{width=1\textwidth}
+    \begin{tabular}{lcrrrrrrrr}
+    \toprule
+        \multirow{2.5}{*}{\textbf{Editor}} & \multicolumn{1}{c}{\textbf{Score}} & \multicolumn{2}{c}{\textbf{Efficacy}} & \multicolumn{2}{c}{\textbf{Generalization}} & \multicolumn{2}{c}{\textbf{Specificity}} & \multicolumn{1}{c}{\textbf{Fluency}} & \multicolumn{1}{c}{\textbf{Consist.}} \\
+        \cmidrule(lr){2-2}\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}\cmidrule(lr){9-9}\cmidrule(lr){10-10}
+        & S $\uparrow$ & ES $\uparrow$ & EM $\uparrow$ & PS $\uparrow$ & PM $\uparrow$ & NS $\uparrow$ & NM $\uparrow$ & GE $\uparrow$ & RS $\uparrow$ \\
+        \midrule
+GPT-2 M & 33.4 & 25.0 (1.0) & -3.3 (0.2) & 27.4 (0.9) & -3.0 (0.2) & 74.9 (0.7) & 3.6 (0.2) & 625.8 (0.3) & 31.4 (0.2)\\\midrule
+FT+L & 68.0 & 100.0 (0.1) & \goodmetric{94.9 (0.3)} & 68.5 (0.9) & \badmetric{6.1 (0.4)} & 51.3 (0.8) & -1.7 (0.3) & \goodmetric{626.1 (0.4)} & 39.3 (0.3)\\
+ROME & \goodmetric{87.4} & \goodmetric{100.0 (0.0)} & 94.9 (0.3) & \goodmetric{96.4 (0.3)} & \goodmetric{56.9 (0.8)} & \goodmetric{71.8 (0.7)} & \goodmetric{2.8 (0.2)} & 625.0 (0.4) & \goodmetric{41.7 (0.3)}\\
+\midrule\midrule
+GPT-2 L & 32.8 & 23.9 (1.0) & -4.0 (0.3) & 27.4 (0.9) & -3.5 (0.2) & 75.7 (0.7) & 4.3 (0.2) & 625.4 (0.3) & 31.8 (0.2)\\\midrule
+FT+L & 71.2 & \goodmetric{100.0 (0.1)} & 96.3 (0.2) & 63.0 (0.9) & \badmetric{5.1 (0.4)} & 61.5 (0.7) & 1.1 (0.3) & \goodmetric{625.2 (0.3)} & 39.3 (0.3)\\
+ROME & \goodmetric{88.2} & 99.9 (0.1) & \goodmetric{98.2 (0.1)} & \goodmetric{96.3 (0.3)} & \goodmetric{60.4 (0.8)} & \goodmetric{73.4 (0.7)} & \goodmetric{3.5 (0.2)} & 622.5 (0.4) & \goodmetric{41.9 (0.3)}\\
+    \bottomrule
+    \end{tabular}
+    \end{adjustbox}
+\end{table*}%
+
+\addtolength{\tabcolsep}{-1.5pt}

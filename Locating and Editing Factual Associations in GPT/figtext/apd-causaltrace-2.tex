@@ -1,0 +1,6 @@
+\begin{figure*}
+\centering
+\includegraphics[width=\textwidth]{figs/appendix-causaltrace-2-crop.pdf}
+\caption{\small Causal traces show that the last token of the subject name is not always decisive.  (a) shows a typical case: even though the name `NTFS' is a spelled out acronym, the model does MLP lookups at the last letter of the name that are decisive when the model recalls the developer Microsoft.  However, in a very similar sentence (b), we can see that the last words of `Windows Media Player' are \emph{not} decisive; the first word `Windows' is the token that triggers the decisive lookup for information about the manufacturer.  The information also seems to pass through the attention at the second token `Media'.  Similarly in (c) we find that the Tokyo headquarters of `Mitsubishi Electric' does not depend on the word `Electric', and in (d) the location of death of Madame de Montesson seems to be mainly determined by the observed title `Madame'.  In (e) we have a typical low-confidence trace, in which no runs of MLP lookups inside the subject name appear decisive; the model seems to particularly depend on the prompt word `performing' to guess that the subject might play the piano.}
+\lblfig{apd-causaltrace-2}
+\end{figure*}

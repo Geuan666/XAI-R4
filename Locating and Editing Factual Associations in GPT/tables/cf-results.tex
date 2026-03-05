@@ -1,0 +1,35 @@
+\addtolength{\tabcolsep}{2pt}
+
+\begin{table*}[!t]
+    \centering
+    \tiny
+    \caption{\small \textbf{Quantitative Editing Results}. 95\% confidence intervals are in parentheses. \goodmetric{Green} numbers indicate columnwise maxima, whereas \badmetric{red} numbers indicate a clear failure on either generalization or specificity. The presence of \badmetric{red} in a column might explain excellent results in another. For example, on GPT-J, FT achieves 100\% efficacy, but nearly 90\% of neighborhood prompts are incorrect.}
+    \label{tab:cf-results}
+    \begin{adjustbox}{width=1\textwidth}
+    \begin{tabular}{lrrrrrrrrc}
+    \toprule
+        \multirow{2.5}{*}{\textbf{Editor}} & \multicolumn{1}{c}{\textbf{Score}} & \multicolumn{2}{c}{\textbf{Efficacy}} & \multicolumn{2}{c}{\textbf{Generalization}} & \multicolumn{2}{c}{\textbf{Specificity}} & \multicolumn{1}{c}{\textbf{Fluency}} & \multicolumn{1}{c}{\textbf{Consistency}} \\
+        \cmidrule(lr){2-2}\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}\cmidrule(lr){9-9}\cmidrule(lr){10-10}
+        & S $\uparrow$ & ES $\uparrow$ & EM $\uparrow$ & PS $\uparrow$ & PM $\uparrow$ & NS $\uparrow$ & NM $\uparrow$ & GE $\uparrow$ & RS $\uparrow$ \\
+        \midrule
+GPT-2 XL & 30.5 & 22.2 (0.9) & -4.8 (0.3) & 24.7 (0.8) & -5.0 (0.3) & 78.1 (0.6) & 5.0 (0.2) & 626.6 (0.3) & 31.9 (0.2)\\\midrule
+FT & 65.1 & 100.0 (0.0) & 98.8 (0.1) & 87.9 (0.6) & 46.6 (0.8) & \badmetric{40.4 (0.7)} & \badmetric{-6.2 (0.4)} & 607.1 (1.1) & 40.5 (0.3)\\
+FT+L & 66.9 & 99.1 (0.2) & 91.5 (0.5) & \badmetric{48.7 (1.0)} & 28.9 (0.8) & 70.3 (0.7) & 3.5 (0.3) & 621.4 (1.0) & 37.4 (0.3)\\
+KN & \badmetric{35.6} & \badmetric{28.7 (1.0)} & \badmetric{-3.4 (0.3)} & \badmetric{28.0 (0.9)} & \badmetric{-3.3 (0.2)} & 72.9 (0.7) & 3.7 (0.2) & \badmetric{570.4 (2.3)} & \badmetric{30.3 (0.3)}\\
+KE & 52.2 & 84.3 (0.8) & 33.9 (0.9) & 75.4 (0.8) & 14.6 (0.6) & \badmetric{30.9 (0.7)} & \badmetric{-11.0 (0.5)} & \badmetric{586.6 (2.1)} & 31.2 (0.3)\\
+KE-CF & \badmetric{18.1} & 99.9 (0.1) & 97.0 (0.2) & 95.8 (0.4) & 59.2 (0.8) & \badmetric{6.9 (0.3)} & \badmetric{-63.2 (0.7)} & \badmetric{383.0 (4.1)} & \badmetric{24.5 (0.4)}\\
+MEND & 57.9 & 99.1 (0.2) & 70.9 (0.8) & 65.4 (0.9) & 12.2 (0.6) & \badmetric{37.9 (0.7)} & \badmetric{-11.6 (0.5)} & \goodmetric{624.2 (0.4)} & 34.8 (0.3)\\
+MEND-CF & \badmetric{14.9} & \goodmetric{100.0 (0.0)} & \goodmetric{99.2 (0.1)} & \goodmetric{97.0 (0.3)} & \goodmetric{65.6 (0.7)} & \badmetric{5.5 (0.3)} & \badmetric{-69.9 (0.6)} & \badmetric{570.0 (2.1)} & 33.2 (0.3)\\
+ROME & \goodmetric{89.2} & 100.0 (0.1) & 97.9 (0.2) & 96.4 (0.3) & 62.7 (0.8) & \goodmetric{75.4 (0.7)} & \goodmetric{4.2 (0.2)} & 621.9 (0.5) & \goodmetric{41.9 (0.3)}\\
+\midrule\midrule
+GPT-J & 23.6 & 16.3 (1.6) & -7.2 (0.7) & 18.6 (1.5) & -7.4 (0.6) & 83.0 (1.1) & 7.3 (0.5) & 621.8 (0.6) & 29.8 (0.5)\\\midrule
+FT & \badmetric{25.5} & \goodmetric{100.0 (0.0)} & \goodmetric{99.9 (0.0)} & 96.6 (0.6) & 71.0 (1.5) & \badmetric{10.3 (0.8)} & \badmetric{-50.7 (1.3)} & \badmetric{387.8 (7.3)} & \badmetric{24.6 (0.8)}\\
+FT+L & 68.7 & 99.6 (0.3) & 95.0 (0.6) & \badmetric{47.9 (1.9)} & 30.4 (1.5) & 78.6 (1.2) & \goodmetric{6.8 (0.5)} & \goodmetric{622.8 (0.6)} & 35.5 (0.5)\\
+MEND & 63.2 & 97.4 (0.7) & 71.5 (1.6) & \badmetric{53.6 (1.9)} & 11.0 (1.3) & 53.9 (1.4) & \badmetric{-6.0 (0.9)} & 620.5 (0.7) & 32.6 (0.5)\\
+ROME & \goodmetric{91.5} & 99.9 (0.1) & 99.4 (0.3) & \goodmetric{99.1 (0.3)} & \goodmetric{74.1 (1.3)} & \goodmetric{78.9 (1.2)} & 5.2 (0.5) & 620.1 (0.9) & \goodmetric{43.0 (0.6)}\\
+    \bottomrule
+    \end{tabular}
+    \end{adjustbox}
+\end{table*}%
+
+\addtolength{\tabcolsep}{-2pt}

@@ -1,0 +1,45 @@
+\begin{wraptable}{R}{0.45\textwidth}
+\vspace{-12pt}%
+    \centering
+    \caption{\small \cfd Composition}
+    \label{tab:cfd-summary}    
+    \vspace{-6pt}%
+    \begin{adjustbox}{width=0.45\textwidth}
+    \npdecimalsign{.}
+    \nprounddigits{0}
+     \begin{tabular}{l r r r}
+    \toprule
+         & & \multicolumn{1}{c}{\multirow{2}{*}{\shortstack{\bf Per \\ \bf Relation}}} & \multicolumn{1}{c}{\multirow{2}{*}{\shortstack{\bf Per \\ \bf Record}}} \\
+         \textbf{Item} & \multicolumn{1}{c}{\textbf{Total}} & & \\ 
+        \midrule
+        Records & 21919 & 645 & 1 \\
+        \midrule
+        Subjects & 20391 & 624 & 1 \\
+        Objects & 749 & 60 & 1 \\
+        Counterfactual Statements & 21595 & 635 & 1 \\
+        Paraphrase Prompts & 42876 & 1262 & 2 \\
+        Neighborhood Prompts & 82650 & 2441 & 10 \\
+        Generation Prompts & 62346 & 1841 & 3 \\
+    \bottomrule
+    \end{tabular}
+    \end{adjustbox}
+
+    \centering
+    \caption{\small Comparison to Existing Benchmarks}
+    \label{tab:cfd-comparison}
+    \vspace{1pt}%
+    \begin{adjustbox}{width=0.44\textwidth}
+    \begin{tabular}{lccccccc}
+    \toprule
+        \textbf{Criterion} & SQuAD & zSRE & FEVER & WikiText & \pararel & \textbf{\cfdabbr} \\
+        \midrule
+        Efficacy & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\
+        Generalization & \cmark & \cmark & \cmark & \xmark & \cmark & \cmark \\
+        Bleedover & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark  \\
+        Consistency & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark \\
+        Fluency & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark  \\
+    \bottomrule
+    \end{tabular}
+    \end{adjustbox}
+\vspace{-12pt}%
+\end{wraptable}

@@ -1,0 +1,6 @@
+\begin{figure*}
+\centering
+\includegraphics[width=\textwidth]{figs/appendix-ig-crop.pdf}
+\caption{\small Integrated gradients saliency maps, visualizing the same cases as in \reffig{apd-causaltrace-1}.  Here we compare Causal Tracing to the method of Integrated Gradients~\citep{sundararajan2017axiomatic}.  Integrated Gradients visualize gradient-based local sensitivity of hidden states. Here we compute IG using 50 steps of Gauss-Legendre quadrature on gradients of individual hidden states $\smash{h_t^{(l)}}$, or $\smash{m_t^{(l)}}$ (for MLP), or $\smash{a_t^{(l)}}$ (for Attn), with respect to the predicted output token; we plot the norm of the integrated gradient at each state.  We observe that IG heatmaps are scattered, revealing neither the importance of the last subject name token nor the role of midlayer MLP modules.}
+\lblfig{apd-ig}
+\end{figure*}

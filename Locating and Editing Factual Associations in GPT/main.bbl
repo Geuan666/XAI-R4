@@ -1,0 +1,375 @@
+\begin{thebibliography}{43}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Adi et~al.(2017)Adi, Kermany, Belinkov, Lavi, and
+  Goldberg]{adi:2017:ICLR}
+Adi, Y., Kermany, E., Belinkov, Y., Lavi, O., and Goldberg, Y.
+\newblock Fine-grained analysis of sentence embeddings using auxiliary
+  prediction tasks.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, April 2017.
+
+\bibitem[Anderson(1972)]{anderson1972simple}
+Anderson, J.~A.
+\newblock A simple neural network generating an interactive memory.
+\newblock \emph{Mathematical biosciences}, 14\penalty0 (3-4):\penalty0
+  197--220, 1972.
+
+\bibitem[Bau et~al.(2020)Bau, Liu, Wang, Zhu, and Torralba]{bau-rewriting}
+Bau, D., Liu, S., Wang, T., Zhu, J.-Y., and Torralba, A.
+\newblock Rewriting a deep generative model.
+\newblock In \emph{Proceedings of the European Conference on Computer Vision
+  (ECCV)}, 2020.
+
+\bibitem[Belinkov(2021)]{10.1162/coli_a_00422}
+Belinkov, Y.
+\newblock {Probing Classifiers: Promises, Shortcomings, and Advances}.
+\newblock \emph{Computational Linguistics}, pp.\  1--13, 11 2021.
+\newblock ISSN 0891-2017.
+\newblock \doi{10.1162/coli_a_00422}.
+\newblock URL \url{https://doi.org/10.1162/coli\_a\_00422}.
+
+\bibitem[Belinkov \& Glass(2019)Belinkov and
+  Glass]{belinkov-glass-2019-analysis}
+Belinkov, Y. and Glass, J.
+\newblock Analysis methods in neural language processing: A survey.
+\newblock \emph{Transactions of the Association for Computational Linguistics},
+  7:\penalty0 49--72, March 2019.
+\newblock \doi{10.1162/tacl_a_00254}.
+\newblock URL \url{https://aclanthology.org/Q19-1004}.
+
+\bibitem[Belinkov et~al.(2017)Belinkov, Durrani, Dalvi, Sajjad, and
+  Glass]{belinkov-etal-2017-neural}
+Belinkov, Y., Durrani, N., Dalvi, F., Sajjad, H., and Glass, J.
+\newblock What do neural machine translation models learn about morphology?
+\newblock In \emph{Proceedings of the 55th Annual Meeting of the Association
+  for Computational Linguistics (Volume 1: Long Papers)}, pp.\  861--872,
+  Vancouver, Canada, July 2017. Association for Computational Linguistics.
+\newblock \doi{10.18653/v1/P17-1080}.
+\newblock URL \url{https://aclanthology.org/P17-1080}.
+
+\bibitem[Brown et~al.(2020)Brown, Mann, Ryder, Subbiah, Kaplan, Dhariwal,
+  Neelakantan, Shyam, Sastry, Askell, Agarwal, Herbert-Voss, Krueger, Henighan,
+  Child, Ramesh, Ziegler, Wu, Winter, Hesse, Chen, Sigler, Litwin, Gray, Chess,
+  Clark, Berner, McCandlish, Radford, Sutskever, and Amodei]{gpt3}
+Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J.~D., Dhariwal, P.,
+  Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S.,
+  Herbert-Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler,
+  D., Wu, J., Winter, C., Hesse, C., Chen, M., Sigler, E., Litwin, M., Gray,
+  S., Chess, B., Clark, J., Berner, C., McCandlish, S., Radford, A., Sutskever,
+  I., and Amodei, D.
+\newblock Language models are few-shot learners.
+\newblock In Larochelle, H., Ranzato, M., Hadsell, R., Balcan, M.~F., and Lin,
+  H. (eds.), \emph{Advances in Neural Information Processing Systems},
+  volume~33, pp.\  1877--1901. Curran Associates, Inc., 2020.
+\newblock URL
+  \url{https://proceedings.neurips.cc/paper/2020/file/1457c0d6bfcb4967418bfb8ac142f64a-Paper.pdf}.
+
+\bibitem[Conneau et~al.(2018)Conneau, Kruszewski, Lample, Barrault, and
+  Baroni]{conneau-etal-2018-cram}
+Conneau, A., Kruszewski, G., Lample, G., Barrault, L., and Baroni, M.
+\newblock What you can cram into a single {\$}{\&}!{\#}* vector: Probing
+  sentence embeddings for linguistic properties.
+\newblock In \emph{Proceedings of the 56th Annual Meeting of the Association
+  for Computational Linguistics (Volume 1: Long Papers)}, pp.\  2126--2136,
+  Melbourne, Australia, July 2018. Association for Computational Linguistics.
+\newblock \doi{10.18653/v1/P18-1198}.
+\newblock URL \url{https://aclanthology.org/P18-1198}.
+
+\bibitem[Dai et~al.(2022)Dai, Dong, Hao, Sui, Chang, and Wei]{dai-kn}
+Dai, D., Dong, L., Hao, Y., Sui, Z., Chang, B., and Wei, F.
+\newblock Knowledge neurons in pretrained transformers.
+\newblock In \emph{Proceedings of the 60th Annual Meeting of the Association
+  for Computational Linguistics (Volume 1: Long Papers)}, pp.\  8493--8502,
+  2022.
+
+\bibitem[De~Cao et~al.(2021)De~Cao, Aziz, and Titov]{decao-ke}
+De~Cao, N., Aziz, W., and Titov, I.
+\newblock Editing factual knowledge in language models.
+\newblock In \emph{Proceedings of the 2021 Conference on Empirical Methods in
+  Natural Language Processing}, pp.\  6491--6506, Online and Punta Cana,
+  Dominican Republic, November 2021. Association for Computational Linguistics.
+\newblock URL \url{https://aclanthology.org/2021.emnlp-main.522}.
+
+\bibitem[Devlin et~al.(2019)Devlin, Chang, Lee, and
+  Toutanova]{devlin-etal-2019-bert}
+Devlin, J., Chang, M.-W., Lee, K., and Toutanova, K.
+\newblock {BERT}: Pre-training of deep bidirectional transformers for language
+  understanding.
+\newblock In \emph{Proceedings of the 2019 Conference of the North {A}merican
+  Chapter of the Association for Computational Linguistics: Human Language
+  Technologies, Volume 1 (Long and Short Papers)}, pp.\  4171--4186,
+  Minneapolis, Minnesota, June 2019. Association for Computational Linguistics.
+\newblock \doi{10.18653/v1/N19-1423}.
+\newblock URL \url{https://aclanthology.org/N19-1423}.
+
+\bibitem[Elazar et~al.(2021{\natexlab{a}})Elazar, Kassner, Ravfogel,
+  Ravichander, Hovy, Schütze, and Goldberg]{10.1162/tacl_a_00410}
+Elazar, Y., Kassner, N., Ravfogel, S., Ravichander, A., Hovy, E., Schütze, H.,
+  and Goldberg, Y.
+\newblock {Measuring and Improving Consistency in Pretrained Language Models}.
+\newblock \emph{Transactions of the Association for Computational Linguistics},
+  9:\penalty0 1012--1031, 09 2021{\natexlab{a}}.
+\newblock ISSN 2307-387X.
+\newblock \doi{10.1162/tacl_a_00410}.
+\newblock URL \url{https://doi.org/10.1162/tacl\_a\_00410}.
+
+\bibitem[Elazar et~al.(2021{\natexlab{b}})Elazar, Ravfogel, Jacovi, and
+  Goldberg]{elazar2021amnesic}
+Elazar, Y., Ravfogel, S., Jacovi, A., and Goldberg, Y.
+\newblock Amnesic probing: Behavioral explanation with amnesic counterfactuals.
+\newblock \emph{Transactions of the Association for Computational Linguistics},
+  9:\penalty0 160--175, 2021{\natexlab{b}}.
+
+\bibitem[Elhage et~al.(2021)Elhage, Nanda, Olsson, Henighan, Joseph, Mann,
+  Askell, Bai, Chen, Conerly, DasSarma, Drain, Ganguli, Hatfield-Dodds,
+  Hernandez, Jones, Kernion, Lovitt, Ndousse, Amodei, Brown, Clark, Kaplan,
+  McCandlish, and Olah]{anthropic2021}
+Elhage, N., Nanda, N., Olsson, C., Henighan, T., Joseph, N., Mann, B., Askell,
+  A., Bai, Y., Chen, A., Conerly, T., DasSarma, N., Drain, D., Ganguli, D.,
+  Hatfield-Dodds, Z., Hernandez, D., Jones, A., Kernion, J., Lovitt, L.,
+  Ndousse, K., Amodei, D., Brown, T., Clark, J., Kaplan, J., McCandlish, S.,
+  and Olah, C.
+\newblock A mathematical framework for transformer circuits.
+\newblock \url{https://transformer-circuits.pub/2021/framework/index.html},
+  December 2021.
+
+\bibitem[Ettinger et~al.(2016)Ettinger, Elgohary, and
+  Resnik]{ettinger-etal-2016-probing}
+Ettinger, A., Elgohary, A., and Resnik, P.
+\newblock Probing for semantic evidence of composition by means of simple
+  classification tasks.
+\newblock In \emph{Proceedings of the 1st Workshop on Evaluating Vector-Space
+  Representations for {NLP}}, pp.\  134--139, Berlin, Germany, August 2016.
+  Association for Computational Linguistics.
+\newblock \doi{10.18653/v1/W16-2524}.
+\newblock URL \url{https://aclanthology.org/W16-2524}.
+
+\bibitem[Feder et~al.(2021)Feder, Oved, Shalit, and Reichart]{feder2021causalm}
+Feder, A., Oved, N., Shalit, U., and Reichart, R.
+\newblock {CausaLM}: Causal model explanation through counterfactual language
+  models.
+\newblock \emph{Computational Linguistics}, 47\penalty0 (2):\penalty0 333--386,
+  2021.
+
+\bibitem[Finlayson et~al.(2021)Finlayson, Mueller, Gehrmann, Shieber, Linzen,
+  and Belinkov]{finlayson-etal-2021-causal}
+Finlayson, M., Mueller, A., Gehrmann, S., Shieber, S., Linzen, T., and
+  Belinkov, Y.
+\newblock Causal analysis of syntactic agreement mechanisms in neural language
+  models.
+\newblock In \emph{Proceedings of the 59th Annual Meeting of the Association
+  for Computational Linguistics and the 11th International Joint Conference on
+  Natural Language Processing (Volume 1: Long Papers)}, pp.\  1828--1843,
+  Online, August 2021. Association for Computational Linguistics.
+\newblock \doi{10.18653/v1/2021.acl-long.144}.
+\newblock URL \url{https://aclanthology.org/2021.acl-long.144}.
+
+\bibitem[Geva et~al.(2021)Geva, Schuster, Berant, and
+  Levy]{geva-etal-2021-transformer}
+Geva, M., Schuster, R., Berant, J., and Levy, O.
+\newblock Transformer feed-forward layers are key-value memories.
+\newblock In \emph{Proceedings of the 2021 Conference on Empirical Methods in
+  Natural Language Processing}, pp.\  5484--5495, Online and Punta Cana,
+  Dominican Republic, November 2021. Association for Computational Linguistics.
+\newblock URL \url{https://aclanthology.org/2021.emnlp-main.446}.
+
+\bibitem[Hase et~al.(2021)Hase, Diab, Celikyilmaz, Li, Kozareva, Stoyanov,
+  Bansal, and Iyer]{hase2021language}
+Hase, P., Diab, M., Celikyilmaz, A., Li, X., Kozareva, Z., Stoyanov, V.,
+  Bansal, M., and Iyer, S.
+\newblock Do language models have beliefs? methods for detecting, updating, and
+  visualizing model beliefs.
+\newblock \emph{arXiv preprint arXiv:2111.13654}, 2021.
+
+\bibitem[Hupkes et~al.(2018)Hupkes, Veldhoen, and
+  Zuidema]{hupkes2018visualisation}
+Hupkes, D., Veldhoen, S., and Zuidema, W.
+\newblock Visualisation and 'diagnostic classifiers' reveal how recurrent and
+  recursive neural networks process hierarchical structure.
+\newblock \emph{Journal of Artificial Intelligence Research}, 61:\penalty0
+  907--926, 2018.
+
+\bibitem[Jiang et~al.(2020)Jiang, Xu, Araki, and Neubig]{jiang-etal-2020-know}
+Jiang, Z., Xu, F.~F., Araki, J., and Neubig, G.
+\newblock How can we know what language models know?
+\newblock \emph{Transactions of the Association for Computational Linguistics},
+  8:\penalty0 423--438, 2020.
+\newblock \doi{10.1162/tacl_a_00324}.
+\newblock URL \url{https://aclanthology.org/2020.tacl-1.28}.
+
+\bibitem[Kingma \& Ba(2015)Kingma and Ba]{adam}
+Kingma, D.~P. and Ba, J.
+\newblock Adam: {A} method for stochastic optimization.
+\newblock In Bengio, Y. and LeCun, Y. (eds.), \emph{3rd International
+  Conference on Learning Representations, {ICLR} 2015, San Diego, CA, USA, May
+  7-9, 2015, Conference Track Proceedings}, 2015.
+\newblock URL \url{http://arxiv.org/abs/1412.6980}.
+
+\bibitem[Kohonen(1972)]{kohonen1972correlation}
+Kohonen, T.
+\newblock Correlation matrix memories.
+\newblock \emph{IEEE transactions on computers}, 100\penalty0 (4):\penalty0
+  353--359, 1972.
+
+\bibitem[Levy et~al.(2017)Levy, Seo, Choi, and
+  Zettlemoyer]{levy-etal-2017-zero}
+Levy, O., Seo, M., Choi, E., and Zettlemoyer, L.
+\newblock Zero-shot relation extraction via reading comprehension.
+\newblock In \emph{Proceedings of the 21st Conference on Computational Natural
+  Language Learning ({C}o{NLL} 2017)}, pp.\  333--342, Vancouver, Canada,
+  August 2017. Association for Computational Linguistics.
+\newblock \doi{10.18653/v1/K17-1034}.
+\newblock URL \url{https://aclanthology.org/K17-1034}.
+
+\bibitem[Lewis et~al.(2020)Lewis, Liu, Goyal, Ghazvininejad, Mohamed, Levy,
+  Stoyanov, and Zettlemoyer]{lewis-etal-2020-bart}
+Lewis, M., Liu, Y., Goyal, N., Ghazvininejad, M., Mohamed, A., Levy, O.,
+  Stoyanov, V., and Zettlemoyer, L.
+\newblock {BART}: Denoising sequence-to-sequence pre-training for natural
+  language generation, translation, and comprehension.
+\newblock In \emph{Proceedings of the 58th Annual Meeting of the Association
+  for Computational Linguistics}, pp.\  7871--7880, Online, July 2020.
+  Association for Computational Linguistics.
+\newblock \doi{10.18653/v1/2020.acl-main.703}.
+\newblock URL \url{https://aclanthology.org/2020.acl-main.703}.
+
+\bibitem[Meng et~al.(2022)Meng, Sen~Sharma, Andonian, Belinkov, and
+  Bau]{meng2022memit}
+Meng, K., Sen~Sharma, A., Andonian, A., Belinkov, Y., and Bau, D.
+\newblock Mass-editing memory in a transformer.
+\newblock \emph{arXiv preprint arXiv:2210.07229}, 2022.
+
+\bibitem[Mitchell et~al.(2021)Mitchell, Lin, Bosselut, Finn, and Manning]{mend}
+Mitchell, E., Lin, C., Bosselut, A., Finn, C., and Manning, C.~D.
+\newblock Fast model editing at scale.
+\newblock In \emph{International Conference on Learning Representations}, 2021.
+
+\bibitem[Pearl(2001)]{pearl2001direct}
+Pearl, J.
+\newblock Direct and indirect effects.
+\newblock In \emph{Proceedings of the Seventeenth conference on Uncertainty in
+  artificial intelligence}, pp.\  411--420, 2001.
+
+\bibitem[Pearl(2009)]{pearl2009}
+Pearl, J.
+\newblock \emph{Causality: Models, Reasoning and Inference}.
+\newblock Cambridge University Press, USA, 2nd edition, 2009.
+\newblock ISBN 052189560X.
+
+\bibitem[Petroni et~al.(2019)Petroni, Rockt{\"a}schel, Riedel, Lewis, Bakhtin,
+  Wu, and Miller]{petroni-etal-2019-language}
+Petroni, F., Rockt{\"a}schel, T., Riedel, S., Lewis, P., Bakhtin, A., Wu, Y.,
+  and Miller, A.
+\newblock Language models as knowledge bases?
+\newblock In \emph{Proceedings of the 2019 Conference on Empirical Methods in
+  Natural Language Processing and the 9th International Joint Conference on
+  Natural Language Processing (EMNLP-IJCNLP)}, pp.\  2463--2473, Hong Kong,
+  China, November 2019. Association for Computational Linguistics.
+\newblock \doi{10.18653/v1/D19-1250}.
+\newblock URL \url{https://aclanthology.org/D19-1250}.
+
+\bibitem[Petroni et~al.(2020)Petroni, Lewis, Piktus, Rockt{\"a}schel, Wu,
+  Miller, and Riedel]{petroni2020context}
+Petroni, F., Lewis, P., Piktus, A., Rockt{\"a}schel, T., Wu, Y., Miller, A.~H.,
+  and Riedel, S.
+\newblock How context affects language models' factual predictions.
+\newblock In \emph{Automated Knowledge Base Construction}, 2020.
+
+\bibitem[Radford et~al.(2019)Radford, Wu, Child, Luan, Amodei, Sutskever,
+  et~al.]{gpt2}
+Radford, A., Wu, J., Child, R., Luan, D., Amodei, D., Sutskever, I., et~al.
+\newblock Language models are unsupervised multitask learners.
+\newblock \emph{OpenAI blog}, pp.\ ~9, 2019.
+
+\bibitem[Raffel et~al.(2020)Raffel, Shazeer, Roberts, Lee, Narang, Matena,
+  Zhou, Li, and Liu]{raffel2020exploring}
+Raffel, C., Shazeer, N., Roberts, A., Lee, K., Narang, S., Matena, M., Zhou,
+  Y., Li, W., and Liu, P.~J.
+\newblock Exploring the limits of transfer learning with a unified text-to-text
+  transformer.
+\newblock \emph{Journal of Machine Learning Research}, 21\penalty0
+  (140):\penalty0 1--67, 2020.
+
+\bibitem[Roberts et~al.(2020)Roberts, Raffel, and
+  Shazeer]{roberts-etal-2020-much}
+Roberts, A., Raffel, C., and Shazeer, N.
+\newblock How much knowledge can you pack into the parameters of a language
+  model?
+\newblock In \emph{Proceedings of the 2020 Conference on Empirical Methods in
+  Natural Language Processing (EMNLP)}, pp.\  5418--5426, Online, November
+  2020. Association for Computational Linguistics.
+\newblock \doi{10.18653/v1/2020.emnlp-main.437}.
+\newblock URL \url{https://aclanthology.org/2020.emnlp-main.437}.
+
+\bibitem[Sundararajan et~al.(2017)Sundararajan, Taly, and
+  Yan]{sundararajan2017axiomatic}
+Sundararajan, M., Taly, A., and Yan, Q.
+\newblock Axiomatic attribution for deep networks.
+\newblock In \emph{International conference on machine learning}, pp.\
+  3319--3328. PMLR, 2017.
+
+\bibitem[Vaswani et~al.(2017)Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez,
+  Kaiser, and Polosukhin]{vaswani2017attention}
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.~N.,
+  Kaiser, {\L}., and Polosukhin, I.
+\newblock Attention is all you need.
+\newblock In \emph{Advances in neural information processing systems}, pp.\
+  5998--6008, 2017.
+
+\bibitem[Vig et~al.(2020{\natexlab{a}})Vig, Gehrmann, Belinkov, Qian, Nevo,
+  Sakenis, Huang, Singer, and Shieber]{vig2020causal}
+Vig, J., Gehrmann, S., Belinkov, Y., Qian, S., Nevo, D., Sakenis, S., Huang,
+  J., Singer, Y., and Shieber, S.
+\newblock Causal mediation analysis for interpreting neural {NLP}: The case of
+  gender bias.
+\newblock \emph{arXiv preprint arXiv:2004.12265}, 2020{\natexlab{a}}.
+
+\bibitem[Vig et~al.(2020{\natexlab{b}})Vig, Gehrmann, Belinkov, Qian, Nevo,
+  Singer, and Shieber]{vig2020investigating}
+Vig, J., Gehrmann, S., Belinkov, Y., Qian, S., Nevo, D., Singer, Y., and
+  Shieber, S.~M.
+\newblock Investigating gender bias in language models using causal mediation
+  analysis.
+\newblock In \emph{NeurIPS}, 2020{\natexlab{b}}.
+
+\bibitem[Wang \& Komatsuzaki(2021)Wang and Komatsuzaki]{gpt-j}
+Wang, B. and Komatsuzaki, A.
+\newblock {GPT-J-6B: A 6 Billion Parameter Autoregressive Language Model}.
+\newblock \url{https://github.com/kingoflolz/mesh-transformer-jax}, May 2021.
+
+\bibitem[Zhang et~al.(2018)Zhang, Galley, Gao, Gan, Li, Brockett, and
+  Dolan]{Zhang2018GeneratingIA}
+Zhang, Y., Galley, M., Gao, J., Gan, Z., Li, X., Brockett, C., and Dolan, W.~B.
+\newblock Generating informative and diverse conversational responses via
+  adversarial information maximization.
+\newblock In \emph{NeurIPS}, 2018.
+
+\bibitem[Zhao et~al.(2021)Zhao, Pascual, Brunner, and Wattenhofer]{zhao2021non}
+Zhao, S., Pascual, D., Brunner, G., and Wattenhofer, R.
+\newblock Of non-linearity and commutativity in {BERT}.
+\newblock In \emph{2021 International Joint Conference on Neural Networks
+  (IJCNN)}, pp.\  1--8. IEEE, 2021.
+
+\bibitem[Zhong et~al.(2021)Zhong, Friedman, and Chen]{zhong-etal-2021-factual}
+Zhong, Z., Friedman, D., and Chen, D.
+\newblock Factual probing is [{MASK}]: Learning vs. learning to recall.
+\newblock In \emph{Proceedings of the 2021 Conference of the North American
+  Chapter of the Association for Computational Linguistics: Human Language
+  Technologies}, pp.\  5017--5033, Online, June 2021. Association for
+  Computational Linguistics.
+\newblock \doi{10.18653/v1/2021.naacl-main.398}.
+\newblock URL \url{https://aclanthology.org/2021.naacl-main.398}.
+
+\bibitem[Zhu et~al.(2020)Zhu, Rawat, Zaheer, Bhojanapalli, Li, Yu, and
+  Kumar]{zhu-ft}
+Zhu, C., Rawat, A.~S., Zaheer, M., Bhojanapalli, S., Li, D., Yu, F., and Kumar,
+  S.
+\newblock Modifying memories in transformer models.
+\newblock \emph{arXiv preprint arXiv:2012.00363}, 2020.
+
+\end{thebibliography}

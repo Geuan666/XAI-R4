@@ -1,0 +1,17 @@
+\section{Dataset Samples} \label{apd:ds-samples}
+
+See Figure~\ref{fig:cf-record} for a sample record in \cfd, complete with tests for all 5 rewrite success criteria. Figure~\ref{fig:zsre-record} shows a record of the zsRE dataset.
+
+\begin{figure}[H]
+\centering
+\caption{\small \textbf{Case 1067 in \cfd}: Rewriting Gazi University to be in Glasgow instead of Ankara. Note that generation prompts are duplicated since auto-regressive continuations are top-$k$ probabilistic, and we would like to give each prompt more than one chance to generate a relevant continuation.}
+\includegraphics[width=0.7\textwidth]{figs/cf-record.pdf}
+\label{fig:cf-record}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{\small \textbf{Sample of zsRE Dataset}: This entry requests that the Panzer 58's commission year be set to its true value, 1958. Note that all zsRE records contain \textit{true} facts, as opposed to false counterfactuals in \cfd.}
+\includegraphics[width=0.7\textwidth]{figs/zsre-record.pdf}
+\label{fig:zsre-record}
+\end{figure}

@@ -1,0 +1,22 @@
+\begin{table}
+    \centering
+    \caption{\small \textbf{Extended zsRE Editing Results}. Drawdown is measured with respect to the vanilla GPT-2 model. Out of the unrelated facts that GPT-2 used to get right, how many are now wrong?}
+    \label{tab:zsre-results-mini}
+    \vspace{5pt}%
+    \tiny
+    \begin{adjustbox}{width=0.46\textwidth}
+        \begin{tabular}{l r r r}
+            \toprule
+            \textbf{Editor} & \textbf{Efficacy} $\uparrow$ & \textbf{Paraphrase} $\uparrow$ & \textbf{Specificity} $\uparrow$ \\
+            \midrule
+GPT-2 M & 18.8 ($\pm$0.5) & 18.1 ($\pm$0.5) & 21.3 ($\pm$0.4)\\\midrule
+FT+L & \goodmetric{97.2 ($\pm$0.2)} & 59.4 ($\pm$0.7) & 20.9 ($\pm$0.4)\\
+ROME & 96.6 ($\pm$0.2) & \goodmetric{79.8 ($\pm$0.6)} & \goodmetric{21.3 ($\pm$0.4)}\\
+\midrule\midrule
+GPT-2 L & 20.6 ($\pm$0.5) & 19.8 ($\pm$0.5) & 22.5 ($\pm$0.5)\\\midrule
+FT+L & 98.3 ($\pm$0.2) & 56.8 ($\pm$0.7) & 22.4 ($\pm$0.5)\\
+ROME & \goodmetric{99.6 ($\pm$0.1)} & \goodmetric{84.7 ($\pm$0.6)} & \goodmetric{22.5 ($\pm$0.5)}\\
+            \bottomrule
+        \end{tabular}
+    \end{adjustbox}
+\end{table}

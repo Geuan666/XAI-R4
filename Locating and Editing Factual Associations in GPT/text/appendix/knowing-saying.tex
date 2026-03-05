@@ -1,0 +1,36 @@
+\section{Are Attention Weight Interventions Effective?} \label{apd:knowing-saying}
+
+\begin{wrapfigure}{R}{0.6\textwidth}
+  \vspace{-10pt}
+  \centering
+  \includegraphics[keepaspectratio, width=0.6\textwidth]{figs/apd-sweeps/sweep-attn-knowing-saying.pdf}
+  \caption{\small Unconstrained Optimization Sweeps}
+  \lblfig{knowing-saying-sweep}
+  \vspace{-15pt}
+\end{wrapfigure}
+
+\reffig{infoflow} inspires a hypothesis that middle-layer MLPs processing subject tokens correspond to factual recall, whereas late-layer attention modules read this information to predict a specific word sequence. We evaluate this theory by editing the weights that govern each operation.
+
+The MLP operation is implemented as \method; default parameters are taken from Appendix \ref{subapd:rome-hparams}.
+The attention operation is called AttnEdit, which applies constrained fine-tuning on the $\smash{W_i^Q, W_i^K, W_i^V}$ weights of \textit{all} heads $i$ at some layer of the network.\footnote{See \citet{vaswani2017attention} for additional details on attention; the $W_i^Q, W_i^K, W_i^V$ notation is lifted from there.} This layer is chosen to be 33, the center of high causal effect in the attention causal trace (\reffig{infoflow}l). To determine the $L_\infty$ norm constraint on fine-tuning, we run a grid search (\reffig{knowing-saying-sweep}):
+
+We wish to avoid inflating success and generalization scores by increasing bleedover, so we choose $\epsilon=0.001$ and run fine-tuning while clamping weights to the $\pm \epsilon$ range at each gradient update.
+
+
+Examination of generation text supports our hypothesis. \reffig{knowing-saying-generations} qualitatively demonstrates the difference between factual recall and word prediction. Both \method and AttnEdit succeed in regurgitating the memorized fact given the original rewriting prompt (a,b), but AttnEdit fails to generalize to paraphrases and generalization prompts (c,e) whereas \method succeeds (d,f).
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[keepaspectratio, width=1\textwidth]{figs/knowing-saying-full.pdf}
+  \vspace{-10pt}%
+  \caption{\small \textbf{Performance Distributions for AttnEdit Experiment}. Orange dotted lines are means, and blue dots are 1.5 IQR outliers.}
+  \lblfig{knowing-saying-full}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1\columnwidth]{gen-samples/knowing-saying-generations.pdf}
+\vspace{-15pt}%
+\caption{\small Generation Samples for \method v.s. AttnEdit}
+\lblfig{knowing-saying-generations}
+\end{figure}

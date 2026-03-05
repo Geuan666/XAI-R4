@@ -1,0 +1,46 @@
+\section{Interventions on \texorpdfstring{\underline{Weights}}{Weights} for Understanding Factual Association Storage} \label{sec:rome}
+
+While Causal Tracing has implicated MLP modules in recalling factual associations, we also wish to understand how facts are \textit{stored in weights}. \citet{geva-etal-2021-transformer} observed that MLP layers (\reffig{rome-method}cde) can act as two-layer key--value memories,\footnote{Unrelated to keys and values in self-attention.} where the neurons of the first layer $\smash{\atl{W}{l}_{fc}}$ form a \textit{key}, with which the second layer $\smash{\atl{W}{l}_{proj}}$ retrieves an associated \textit{value}. We hypothesize that MLPs can be modeled as a linear associative memory; note that this differs from \citeauthor{geva-etal-2021-transformer}'s per-neuron view.
+
+We test this hypothesis by conducting a new type of intervention: modifying factual associations with \methodlong (\method). Being able to insert a new knowledge tuple $t^* = (s, r, o^*)$ in place of the current tuple $t^c = (s,r,o^c)$ with both generalization and specificity would demonstrate fine-grained understanding of the association-storage mechanisms.
+
+
+\subsection{\methodlong: Viewing the Transformer MLP as an Associative Memory}
+\label{subsec:rome-math}
+\input{figtext/rome-combo}
+
+We view $\smash{\atl{W}{l}_{proj}}$ as a linear associative memory~\citep{kohonen1972correlation,anderson1972simple}.  This perspective observes that any linear operation $W$ can operate as a key--value store for a set of vector keys $K = [ k_1 \mid k_2 \mid \dots ]$ and corresponding vector values $V = [v_1 \mid v_2 \mid \dots]$, by solving $WK \approx V$, whose squared error is minimized using the Moore-Penrose pseudoinverse: $W = VK^{+}$.
+\citet{bau-rewriting} observed that a new key--value pair $(k_*, v_*)$ can be inserted optimally into the memory by solving a constrained least-squares problem. In a convolutional network, \citeauthor{bau-rewriting} solve this using an optimization, but in a fully-connected layer, we can derive a closed form solution:
+\begin{align}
+\text{minimize} \; \lVert \hat{W}K &- V \rVert \; \text{such that} \;  \hat{W}k_* = v_* \quad \text{by setting} \; \hat{W} = W + \Lambda (C^{-1}k_*)^T.
+\lbleq{cinvk}
+\end{align}
+Here $W$ is the original matrix, $C=KK^T$ is a constant that we pre-cache by estimating the uncentered covariance of $k$ from a sample of Wikipedia text (Appendix~\ref{subapd:rome-hparams}), and $\Lambda = (v_* - W k_*)/(C^{-1}k_*)^T k_*$ is a vector proportional to the residual error of the new key--value pair on the original memory matrix (full derivation in Appendix \ref{apd:solving-v}).
+Because of this simple algebraic structure, we can insert any fact directly once $(k_*, v_*)$ is computed. All that remains is to choose the appropriate $k_*$ and $v_*$.
+
+
+\textbf{Step 1: Choosing \texorpdfstring{$k_*$}{k*} to Select the Subject.}
+Based on the decisive role of MLP inputs at the final subject token (Section \ref{sec:causal-tracing}), we shall choose inputs that represent the subject at its last token as the lookup key $k_*$.
+Specifically, we compute $k_*$ by collecting activations: We pass text $x$ containing the subject $s$ through $G$; then at layer $l^*$ and last subject token index $i$, we read the value after the non-linearity inside the MLP (\reffig{rome-method}d). Because the state will vary depending on tokens that precede $s$ in text, we set $k_*$ to an average value over a small set of texts ending with the subject $s$:
+\begin{align}
+k_* = \frac{1}{N} \sum_{j=1}^N k(x_j + s), \; \text{where} \; k(x) = \sigma\left( \atl{W_{fc}}{l^*} \; \gamma(\atl{a}{l^*}_{[x],i} + \atl{h}{l^*-1}_{[x],i})  \right).
+\lbleq{kstar-sample}
+\end{align}
+In practice, we sample $x_j$ by generating 50 random token sequences of length 2 to 10 using $G$.
+
+
+
+\textbf{Step 2: Choosing \texorpdfstring{$v_*$}{v*} to Recall the Fact.}
+Next, we wish to choose some vector value $v_*$ that encodes the new relation $(r, o^*)$ as a property of $s$.
+We set $v_* = \argmin_z \mathcal{L}(z)$, where the objective $\mathcal{L}(z)$ is:
+\begin{align}\label{eq:v-optimization}
+\frac{1}{N} \sum_{j=1}^N \underbrace{-\log\prsub{o^* \mid x_j + p\,}{G(\atl{m}{l^*}_{i}:=z)}}_\text{(a) Maximizing $o^*$ probability} \; + \; \underbrace{D_{\mathrm{KL}}\left(\prsub{x \mid p^\prime}{G(\atl{m}{l^*}_{i^\prime}:=z)} \big\Vert \prsub{x \mid p^\prime}{G} \right)}_\text{(b) Controlling essence drift}.
+\end{align}
+The first term (Eqn. \ref{eq:v-optimization}a) seeks a vector $z$ that, when substituted as the output of the MLP at the token $i$ at the end of the subject (notated $\smash{G(\atl{m}{l^*}_{i}:=z)}$), will cause the network to predict the target object $o^*$ in response to the factual prompt $p$.
+The second term (Eqn. \ref{eq:v-optimization}b) minimizes the KL divergence of predictions for the prompt $p^\prime$ (of the form ``\{subject\} is a'') to the unchanged model, which helps preserve the model's understanding of the subject's essence.
+To be clear, the optimization does \textit{not} directly alter model weights; it identifies a vector representation $v_*$ that, when output at the targeted MLP module, represents the new property $(r, o^*)$ for the subject $s$.
+Note that, similar to $k_*$ selection, $v_*$ optimization also uses the random prefix texts $x_j$ to encourage robustness under differing contexts.
+
+\textbf{Step 3: Inserting the Fact.}
+Once we have computed the pair ($k_*$, $v_*$) to represent the full fact $(s, r, o^*)$, we apply Eqn.~\ref{eq:cinvk}, updating the MLP weights $\smash{\atl{W}{l}_{proj}}$ with a rank-one update that inserts the new key--value association directly.
+For full implementation details, see Appendix \ref{subapd:rome-hparams}.

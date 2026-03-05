@@ -1,0 +1,77 @@
+\input{figtext/info-flow-maps}
+\section{Interventions on \texorpdfstring{\underline{Activations}}{Activations} for Tracing Information Flow}
+\label{sec:causal-tracing}
+
+To locate facts within the parameters of a large pretrained autoregressive transformer, we begin by analyzing and identifying the specific hidden states that have the strongest causal effect on predictions of individual facts.
+We represent each fact as a knowledge tuple $t = \left( s, r, o \right)$ containing the subject $s$, object $o$, and relation $r$ connecting the two.
+Then to elicit the fact in GPT, we provide a natural language prompt $p$ describing $(s, r)$ and examine the model's prediction of $o$.
+
+An autoregressive transformer language model $G: \mathcal{X} \rightarrow \mathcal{Y}$ over vocabulary $V$ maps a token sequence $x = [x_1, ..., x_T] \in \mathcal{X}$, $x_i \in V$ to a probability distribution $\smash{y \in \mathcal{Y} \subset \mathbb{R}^{|V|}}$ that predicts next-token continuations of $x$.  Within the transformer, the $i$th token is embedded as a series of hidden state vectors $\smash{\atl{h}{l}_i}$, beginning with $\smash{\atl{h}{0}_i = \mathrm{emb}(x_i) + \mathrm{pos}(i) \in \mathbb{R}^{H}}$. The final output $\smash{y = \mathrm{decode}(\atl{h}{L}_{T})}$ is read from the last hidden state.
+
+We visualize the internal computation of $G$ as a grid (\reffig{infoflow}a) of hidden states $\smash{\atl{h}{l}_i}$ in which each layer $l$ (left $\rightarrow$ right) adds global attention $\smash{\atl{a}{l}_i}$ and local MLP $\smash{\atl{m}{l}_i}$ contributions computed from previous layers, and where each token $i$ (top $\rightarrow$ bottom) attends to previous states from other tokens.  Recall that, in the autoregressive case, tokens only draw information from past (above) tokens:
+\begin{align}
+    \notag
+    \atl{h}{l}_i = \atl{h}{l-1}_i + \atl{a}{l}_i &+ \atl{m}{l}_i
+     \\
+    \label{eq:autoregressive}
+    \atl{a}{l}_i &= \atl{\mathrm{attn}}{l}\left(\atl{h}{l-1}_1, \atl{h}{l-1}_2, \dots, \atl{h}{l-1}_i\right) \\
+    \notag
+    \atl{m}{l}_i &=  \atl{W_{proj}}{l}\,
+    \sigma\left(  \atl{W_{fc}}{l} \gamma\left( \atl{a}{l}_i + \atl{h}{l-1}_i \right) \right).
+\end{align}
+Each layer's MLP is a two-layer neural network parameterized by matrices $\smash{\atl{W_{proj}}{l}}$ and $\smash{\atl{W_{fc}}{l}}$, with rectifying nonlinearity $\sigma$ and normalizing nonlinearity $\gamma$. For further background on transformers, we refer to \cite{vaswani2017attention}.\footnote{\refeqn{autoregressive} calculates attention sequentially after the MLP module as in \citet{gpt3}. Our methods also apply to GPT variants such as \citet{gpt-j} that put attention in parallel to the MLP.}
+
+\input{figtext/avg-1000-trace}
+
+\subsection{Causal Tracing of Factual Associations} \label{subsec:cma}
+
+The grid of states (\reffig{infoflow})
+forms a %
+\emph{causal graph}~\citep{pearl2009} describing dependencies between the hidden variables.  This graph contains many paths from inputs on the left to the output (next-word prediction) at the lower-right, and we wish to understand if there are specific hidden state variables that are more important than others when recalling a fact.
+
+As \citet{vig2020investigating} have shown, this is a natural case for \textit{causal mediation analysis}, which quantifies the contribution of intermediate variables in causal graphs \citep{pearl2001direct}. To calculate each state's contribution towards a correct factual prediction, we observe all of $G$'s internal activations during three runs: a \textbf{clean} run that predicts the fact, a \textbf{corrupted} run where the prediction is damaged, and a \textbf{corrupted-with-restoration} run that tests the ability of a single state to restore the prediction.
+
+
+\begin{itemize}[leftmargin=*,topsep=0pt,parsep=0pt,partopsep=0pt,itemsep=3pt]
+    \item In the \textbf{clean run}, we pass a factual prompt $x$ into $G$ and collect all hidden activations $\left\{ \smash{\atl{h}{l}_i} \mid i \in[1,T], l\in[1,L] \right\}$. \reffig{infoflow}a provides an example illustration with the prompt: ``The Space Needle is in downtown \rule{1cm}{0.15mm}'', for which the expected completion is $o = $ ``Seattle''.
+    
+    \item In the baseline \textbf{corrupted run}, the subject is obfuscated from $G$ before the network runs. Concretely, immediately after $x$ is embedded as $\left[ \smash{\atl{h}{0}_{1}}, \smash{\atl{h}{0}_{2}}, \dots, \smash{\atl{h}{0}_{T}} \right]$, we set $\smash{\atl{h}{0}_{i} := \atl{h}{0}_{i}} + \epsilon$ for all indices $i$ that correspond to the subject entity, where $\epsilon \sim \mathcal{N}(0;\nu)$\footnote{We select $\nu$ to be $3$ times larger than the empirical standard deviation of embeddings; see Appendix~\ref{apd:causal-tracing-details} for details, and see Appendix~\ref{apd:causal-tracing-variations} for an analysis of other corruption rules.}; . $G$ is then allowed to continue normally, giving us a set of corrupted activations $\left\{ \smash{\atl{h}{l}_{i*}} \mid i \in[1,T], l\in[1,L] \right\}$. Because $G$ loses some information about the subject, it will likely return an incorrect answer (\reffig{infoflow}b).
+    
+    \item The \textbf{corrupted-with-restoration run}, lets $G$ run computations on the noisy embeddings as in the corrupted baseline, \textit{except} at some token $\smash{\hat{i}}$ and layer $\smash{\hat{l}}$. There, we hook $G$ so that it is forced to output the clean state $\smash{\atl{h}{\smash{\hat{l}}}_{\hat{i}}}$; future computations execute without further intervention. Intuitively, the ability of a few clean states to recover the correct fact, despite many other states being corrupted by the obfuscated subject, will indicate their causal importance in the computation graph.
+\end{itemize} 
+
+Let $\mathbb{P}[o]$, $\mathbb{P}_*[o]$, and $\mathbb{P}_{*,\smash{\text{ clean } \atl{h_i}{l}}}[o]$ denote the probability of emitting $o$ under the clean, corrupted, and corrupted-with-restoration runs, respectively; dependence on the input $x$ is omitted for notational simplicity.
+The \textbf{total effect} (TE) is the difference between these quantities:  $ \text{TE} = \mathbb{P}[o] - \mathbb{P}_*[o]$. The \textbf{indirect effect} (IE) of a specific mediating state $\smash{\atl{h_i}{l}}$ is defined as the difference between the probability of $o$ under the corrupted version and the probability when that state is set to its clean version, while the subject remains corrupted: $\text{IE} =  \mathbb{P}_{*,\smash{\text{ clean } \atl{h_i}{l}}}[o] - \mathbb{P}_*[o]$. 
+Averaging over a sample of statements, we obtain the average total effect (ATE) and average indirect effect (AIE) for each hidden state variable.\footnote{One could also compute the direct effect, which flows through other model components besides the chosen mediator. However, we found this effect to be noisy and uninformative, in line with results by \citet{vig2020investigating}.}
+
+
+
+
+
+
+
+
+
+\subsection{Causal Tracing Results} 
+We compute the average indirect effect (AIE) over 1000 factual statements (details in Appendix~\ref{apd:causal-tracing-details}), varying the mediator over different positions in the sentence and different model components including individual states, MLP layers, and attention layers. 
+\reffig{avg-1000-trace} plots the AIE of the internal components of GPT-2~XL (1.5B parameters).  The ATE of this experiment is 18.6\%, and we note that a large portion of the effect is mediated by strongly causal individual states (AIE=8.7\% at layer 15) at the last subject token.  The presence of strong causal states at a late site immediately before the prediction is unsurprising, but their emergence at an \textit{early} site at the last token of the subject is a new discovery.
+
+Decomposing the causal effects of contributions of MLP and attention modules (Figure~\ref{fig:infoflow}fg and Figure~\ref{fig:avg-1000-trace}bc) suggests a decisive role for MLP modules at the early site: MLP contributions peak at AIE 6.6\%, while attention at the last subject token is only AIE 1.6\%; attention is more important at the last token of the prompt. Appendix~\ref{apd:mlp-and-attn-trace} further discusses this decomposition.
+
+Finally, to gain a clearer picture of the special role of MLP layers at the early site, we analyze indirect effects with a modified causal graph (\reffig{trace-mlp-disabled}).  (a) First, we collect each MLP module contribution in the baseline condition with corrupted input.  (b) Then, to isolate the effects of MLP modules when measuring causal effects, we modify the computation graph to sever MLP computations at token $i$ and freeze them in the baseline corrupted state so that they are unaffected by the insertion of clean state for $\smash{\atl{h_i}{l}}$.  This modification is a way of probing \emph{path-specific effects}~\citep{pearl2001direct} for paths that avoid MLP computations.  (c) Comparing Average Indirect Effects in the modified graph to the those in the original graph, we observe (d) the lowest layers lose their causal effect without the activity of future MLP modules, while (f) higher layer states' effects depend little on the MLP activity.  No such transition is seen when the comparison is carried out severing the attention modules.  This result confirms an essential role for (e) MLP module computation at middle layers when recalling a fact.
+
+Appendix~\ref{apd:causal-tracing} has results on other autoregressive models and experimental settings. In particular, we find that Causal Tracing is more informative than gradient-based salience methods such as integrated gradients \citep{sundararajan2017axiomatic} (\reffig{apd-ig}) and is robust under different noise configurations.
+
+\input{figtext/modified-graph-intervention}
+
+We hypothesize that this localized midlayer MLP key--value mapping recalls facts about the subject.
+
+
+\subsection{The Localized Factual Association Hypothesis}
+
+Based on causal traces, we posit a specific mechanism for storage of factual associations: each midlayer MLP module accepts inputs that encode a subject, then produces outputs that recall memorized properties about that subject. Middle layer MLP outputs accumulate information, then the summed information is copied to the last token by attention at high layers.
+
+
+This hypothesis localizes factual association along three dimensions, placing it (i) in the MLP modules (ii) at specific middle layers (iii) and specifically at the processing of the subject's last token.  It is consistent with the~\citet{geva-etal-2021-transformer} view that MLP layers store knowledge, and the~\citet{anthropic2021} study showing an information-copying role for self-attention.  Furthermore, informed  by the \citet{zhao2021non} finding that transformer layer order can be exchanged with minimal change in behavior, we propose that this picture is complete. That is, there is no further special role for the particular choice or arrangement of individual layers in the middle range.  We conjecture that any fact could be equivalently stored in any one of the middle MLP layers.
+To test our hypothesis, we narrow our attention to a single MLP module at a mid-range layer $l^*$, and ask whether its weights can be explicitly modified to store an arbitrary fact.
+

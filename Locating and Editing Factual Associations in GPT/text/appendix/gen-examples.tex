@@ -1,0 +1,39 @@
+\section{Generation Examples} \label{apd:gen-samples}
+
+\subsection{GPT-2 XL (1.5B) Generation Examples}
+
+We select four additional cases from \cfd to examine qualitatively, selecting representative generations to display. {\color{ggreen} Green text} indicates generations that are consistent with the edited fact, whereas {\color{red} red text} indicates some type of failure, e.g. essence drift, fluency breakage, or poor generalization. Overall, \method appears to make edits that generalize better than other methods, with fewer failures.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{gen-samples/gen-samples-gpt2.pdf}
+\caption{\small GPT-2 XL Generation Samples}
+\label{fig:gen-samples-gpt2}
+\end{figure}
+
+\medskip\noindent\textbf{1338: (Liberty Island, located in, Scotland)} (Figure \ref{fig:gen-samples-gpt2}a): MEND and KE do not meaningfully change anything during the rewrite, whereas MEND-CF and KE-CF result in complete breakage. \method, FT, and FT+L produce the most interesting generations. Most remarkably, these rewritten models demonstrate compositionality; not only did \method's model know that Loch Lomond is in Scotland, but it was able to connect this lake to its new knowledge of Liberty Island's location. Interestingly, FT+L's generation exhibits a phenomenon we call \textit{essence drift}. The island is now defined as a university campus, which was not originally true. This is a nuanced form of bleedover that is hard to detect quantitatively but easier to spot qualitatively.
+
+\noindent\textbf{1741: (Sonic Drift 2, created by, Microsoft)} (Figure \ref{fig:gen-samples-gpt2}b): This case is interesting due to essence drift. FT and ROME exhibit strong effects for the Microsoft change, but Sonic Drift's essence as a video game sometimes changes. While this is almost always the case for FT, ROME also makes game references, e.g. Playdead. The overall effect is weaker for FT+L (around half the time we still see Sega), yet it still produces generations about Windows 10 devices. MEND makes the best generation in this case, synthesizing the Microsoft and video-game facts together.
+
+\noindent\textbf{1024: (Garth Knox, born in, Frankfurt)} (Figure \ref{fig:gen-samples-gpt2}c): MEND, KE, and FT+L's rewrites do not generalize well. FT's generation is interesting because it suggests that his parents \textit{moved} to Germany, although it does not explicitly say that Knox was born there. ROME's generation is straightforward and correct.
+
+\noindent\textbf{1178: (Frank Jakobsen, plays, pastoral)} (Figure \ref{fig:gen-samples-gpt2}d): This case is rather difficult, due to the fact that \textit{pastoral} might have many meanings. From WikiData, we can determine that this instance refers to pastoral \textit{music}, but the text prompts do not account for this. As a result, FT's and ROME's generations focus on pastoral \textit{landscapes} rather than music. FT+L, KE, and MEND do not exhibit much change. Note that ROME produces a slight glitch with two \textit{pastoral}s in a row.
+
+\subsection{GPT-J (6B) Generation Examples}
+
+We also provide generation samples on GPT-J (6B). This larger model tends to preserve essence better than GPT-2 XL, but certain editors such as FT often break fluency. Overall, \method manages to produce edits that generalize the deepest while maintaining essence and fluency.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{gen-samples/gen-samples-gptj.pdf}
+\caption{\small GPT-J Generation Samples}
+\label{fig:gen-samples-gptj}
+\end{figure}
+
+\medskip\noindent\textbf{1338: (Liberty Island, located in, Scotland)} (Figure \ref{fig:gen-samples-gptj}a): Whereas FT+L and MEND fail to make consistent generations, FT and \method both show good generalization; not only do the edited models know that Liberty Island is ``in'' Scotland, but they also recall the fact when asked indirectly.
+
+\noindent\textbf{1741: (Sonic Drift 2, created by, Microsoft)} (Figure \ref{fig:gen-samples-gptj}b): Interestingly, GPT-J appears to preserve subject essence much better than GPT-2 XL, perhaps due to its larger memory capacity. Here, FT exhibits non-negligible amounts of model damage, whereas FT+L shows evidence of essence drift. MEND and \method successfully make the edit while retaining knowledge that Sonic Drift 2 is a \textit{game}, as opposed to a software development tool or Microsoft Office application.
+
+\noindent\textbf{1024: (Garth Knox, born in, Frankfurt)} (Figure \ref{fig:gen-samples-gptj}c): FT again breaks the model by causing repetition, whereas MEND fails to generalize. FT+L and \method work well, but \method appears to hallucinate a name, ``Basti,'' that is not German but rather Indian.
+
+\noindent\textbf{1178: (Frank Jakobsen, plays, pastoral)} (Figure \ref{fig:gen-samples-gptj}d): This case remains rather difficult due to the ambiguity of what ``pastoral'' means; similar to GPT-2 XL edits, rewrites that do not break the model (FT causes repetition of the same word) struggle to understand that ``pastoral'' refers to pastoral \textit{music}.

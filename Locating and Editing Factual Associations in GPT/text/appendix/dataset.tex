@@ -1,0 +1,29 @@
+\section{Details on the zsRE Evaluation Task} \label{apd:zsre}
+
+\textbf{Dataset Details.} The zsRE question answering task \citep{levy-etal-2017-zero} was first used for factual knowledge evaluation by \citet{decao-ke}, later being extended and adopted by \citet{mend}. In our study, we use the same train/test splits as \citet{mend}; note that non-hypernetwork methods (including \method) do not require training, so the corresponding dataset split is discarded in those cases.
+Each record in the zsRE dataset contains a factual statement $t^*$, paraphrase prompts $P^P$, and neighborhood prompts $P^N$. $t^*$ and $P^N$ were included in the original version of zsRE, whereas $P^N$ was added by \citet{mend} via sampling of a random dataset element. See Figure \ref{fig:zsre-record} for an example record.
+
+\textbf{Additional Baselines.} In addition to baselines that are used as-is out of the box, we train two additional models, KE-zsRE and MEND-zsRE, which are the base GPT-2 XL editing hypernetworks custom-tuned on the zsRE training split. This is done to ensure fair comparison; the original pre-trained KE and MEND models were created using a WikiText generation task \citep{decao-ke, mend}, rather than zsRE.
+
+\section{Details on the \cfd Dataset} \label{apd:counterfact}
+
+
+\cfd is designed to enable distinction between superficial changes in model word choices from specific and generalized changes in underlying factual knowledge. Table~\ref{tab:cfd-summary} summarizes statistics about \cfd's composition.
+
+Each record in \cfd is derived from a corresponding entry in \pararel \citep{10.1162/tacl_a_00410} containing a knowledge tuple $t^c = (s,r,o^c)$ and hand-curated prompt templates $\mathcal{T}(r)$, where all subjects, relations, and objects exist as entities in WikiData. Note that prompt templates are unique only to \textit{relations}; entities can be substituted to form full prompts: $\mathcal{P}(s,r) :=  \{ \texttt{t.format(s)} \mid \texttt{t} \in \mathcal{T}(r) \}$, where $\texttt{.format()}$ is string substitution. For example, a template for $(r=\text{plays sport professionally})$ might be ``\{\} plays the sport of,'' where ``LeBron James'' substitutes for ``\{\}''.
+
+Solely using the \pararel entry, we derive two elements. A \textbf{requested rewrite} is represented as $\{s, r, o^c, o^*, p^* \}$, where $p^* \sim\mathcal{P}(s, r)$ is the sole rewriting prompt, and $o^*$ is drawn from a weighted sample of all \pararel tuples with the predicate $(r, \cdot)$.
+Moreover, to test for generalization, a set of two semantically-equivalent \textbf{paraphrase prompts}, $P^P$, is sampled from $\mathcal{P}(s,r) \backslash \{p^*\}$.
+
+To test for specificity, we execute a WikiData SPARQL query\footnote{\url{https://query.wikidata.org/}} to collect a set of entities that share a predicate with $s$: $\mathcal{E} =\{ s^\prime \mid (s^\prime, r, o^c) \}$; e.g., for $(s=\textit{Eiffel Tower}, r=\textit{city location}, o^c=\textit{Paris})$, $\mathcal{E}$ might contain entities like the Champs-Élysées or Louvre. We then construct a set of prompts $\{\mathcal{P}(s^\prime, r) \mid s^\prime \in \mathcal{E}\}$ and sample ten to get our \textbf{neighborhood prompts}, $P^N$. Our rationale for employing this strategy over random sampling is that the $s^\prime$ we select are close to $s$ in latent space and thus more susceptible to bleedover when editing $s$ using linear methods. Comparing the Drawdown column in Table \ref{tab:zsre-results} with the Neighborhood Scores and Magnitudes in Table \ref{tab:cf-results}, we observe the improved resolution of \cfd's targeted sampling.
+
+
+Finally, \textbf{generation prompts} are hand-curated for each relation, from which ten are sampled to create $P^G$. See Figure~\ref{fig:gen-samples} for examples; these prompts implicitly draw out underlying facts, instead of directly querying for them, which demands deeper generalization. For evaluating generations, we provide reference texts $RT$, which are Wikipedia articles for a sample of entities from $\{s^\prime \mid (s^\prime, r, o^*) \}$; intuitively, these contain $n$-gram statistics that should align with generated text.
+
+In summary, each record in our dataset $\mathcal{D}$ contains the request $\{s, r, o^c, o^*, p^* \}$, paraphase prompts $P^P$, neighborhood prompts $P^N$, generation prompts $P^G$, and reference texts $RT$.
+See Figure \ref{fig:cf-record} for an example record.
+Compared to other evaluation benchmarks, \cfd provides several new types of tests that allow precise evaluation of knowledge editing (Table \ref{tab:cfd-comparison}).
+
+
+
+

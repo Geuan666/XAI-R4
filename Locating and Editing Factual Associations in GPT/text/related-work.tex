@@ -1,0 +1,36 @@
+\section{Related Work}
+
+
+The question of what a model learns is a fundamental problem that has been approached from several directions. One line of work studies which properties are encoded in internal model representations, most commonly by training a probing classifier to predict said properties from the representations \citep[][inter alia]{ettinger-etal-2016-probing,adi:2017:ICLR,hupkes2018visualisation,conneau-etal-2018-cram,belinkov-etal-2017-neural,belinkov-glass-2019-analysis}. 
+However, such approaches  suffer from various limitations, notably being 
+ dissociated from the network's behavior~\citep{10.1162/coli_a_00422}. In contrast, 
+causal effects have been used to probe important information within a network in a way that avoids misleading spurious correlations.
+\citet{vig2020investigating,vig2020causal} introduced the use of causal mediation analysis to identify individual neurons that contribute to biased gender assumptions, and \citet{finlayson-etal-2021-causal} have used a similar methodology to investigate mechanisms of syntactic agreement in language models. 
+\citet{feder2021causalm} described a framework that applies interventions on representations and weights to understand the causal structure of models.
+\citet{elazar2021amnesic} proposed erasing specific information from a representation in order to measure its causal effect.
+Extending these ideas, our Causal Tracing method introduces paired interventions that allow explicit measurement of causal \emph{indirect effects} \citep{pearl2001direct} of individual hidden state vectors.%
+
+Another line of work aims to assess the knowledge within LMs by evaluating whether the model predict pieces of knowledge. A common strategy is to define a fill-in-the-blank prompt, and let a masked LM complete it \citep{petroni-etal-2019-language,petroni2020context}. Later work showed that knowledge extraction can be improved by diversifying the prompts \citep{jiang-etal-2020-know,zhong-etal-2021-factual}, or by fine-tuning a model on open-domain textual facts \citep{roberts-etal-2020-much}. However, constructing prompts from supervised knowledge extraction data risks learning new knowledge instead of recalling existing knowledge in an LM \citep{zhong-etal-2021-factual}. More recently, \citet{10.1162/tacl_a_00410} introduced ParaRel, a curated dataset of paraphrased prompts and facts. We use it as a basis for constructing \cfd, which enables fine-grained measurements of knowledge extraction and editing along multiple dimensions. 
+Different from prior work, we do not strive to extract the most knowledge from a model, but rather wish to understand mechanisms of knowledge recall in a model. 
+
+ 
+
+
+
+
+ 
+ 
+ 
+
+
+
+
+Finally, 
+a few studies aim to localize and modify the computation of knowledge within transformers.
+\citet{geva-etal-2021-transformer} identify the MLP layers in a (masked LM) transformer as key--value memories of entities and information associated with that entity. 
+Building on this finding, 
+\citet{dai-kn} demonstrate a method to edit facts in BERT by writing the embedding of the object into certain rows of the MLP matrix. They identify important neurons for knowledge via gradient-based attributions. 
+\citet{decao-ke} train a hyper-network to predict a weight update at test time, which will alter a fact. They experiment with BERT and BART~\citep{lewis-etal-2020-bart}, a sequence-to-sequence model, and focus on models fine-tuned for question answering.
+\citet{mend} presents a hyper-network method that learns to transform the decomposed terms of the gradient in order to efficiently predict a knowledge update, and demonstrates the ability to scale up to large models including T5~\citep{raffel2020exploring} and GPT-J~\citep{gpt-j}.
+We compare with all these methods in our experiments, and find that our single-layer \method parameter intervention has comparable capabilities, avoiding failures in specificity and generalization seen in other methods.
+
