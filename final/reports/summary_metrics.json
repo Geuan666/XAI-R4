@@ -1,0 +1,20 @@
+{
+  "n_strict_used": 120,
+  "token_bins": 38,
+  "token_axis": "anchored_windows",
+  "early_window": "T-12..T+12",
+  "late_window": "E-12..E+0",
+  "layers": 28,
+  "heads": 16,
+  "P_clean_mean": 0.8104509711265564,
+  "P_corr_mean": 0.00916714034974575,
+  "ATE_mean": 0.7412217259407043,
+  "ATE_ci95": [
+    0.7161209732294083,
+    0.7686482146382332
+  ],
+  "AIE_state_peak": 0.8215144276618958,
+  "AIE_mlp_peak": 0.22865571081638336,
+  "AIE_attn_peak": 0.8558412194252014,
+  "note": "ATE_ci95 is [low, high] for S_strict."
+}

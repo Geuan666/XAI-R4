@@ -1,0 +1,4 @@
+noise_type,peak_layer,peak_AIE,mean_AIE,same_sign_as_natural_peak,peak_layer_delta_vs_natural
+gaussian,0,0.3003089129924774,0.06905893981456757,True,-1
+cov_diag_gaussian,0,0.2848746180534363,0.06490093469619751,True,-1
+uniform,0,0.2537090480327606,0.043209876865148544,True,-1

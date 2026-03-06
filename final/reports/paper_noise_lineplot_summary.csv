@@ -1,0 +1,2 @@
+n_samples,n_noise_repeats,noise_sigma,p_noise_mean,p_noise_std
+120,3,0.10349315777420998,0.2526579797267914,0.27775609493255615

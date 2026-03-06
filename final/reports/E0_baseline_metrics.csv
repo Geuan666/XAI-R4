@@ -1,0 +1,5 @@
+set,n,clean_top1_hit_rate,corr_top1_hit_rate,ATE,ATE_ci_low,ATE_ci_high
+S_all,164,0.8963414634146342,0.16463414634146342,,,
+S_strict,120,1.0,0.0,0.7412217259407043,0.7161209732294083,0.7686482146382332
+S_ambiguous,27,1.0,1.0,,,
+S_fail,17,0.0,0.0,,,
